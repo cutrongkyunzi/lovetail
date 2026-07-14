@@ -27,9 +27,9 @@ button{font-family:inherit}
 .cmt-toggle:hover{opacity:1}
 .img-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .img-thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #E7E4EC;cursor:pointer}
-.img-upload-btn{width:72px;height:72px;border:2px dashed #E7E4EC;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:#ccc;transition:border-color .15s}
-.img-upload-btn:hover{border-color:#FF4D6D;color:#FF4D6D}
-.img-upload-btn span{font-size:8px;margin-top:2px}
+.img-upload-btn{width:72px;height:72px;border:2px dashed #ccc;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:#999;transition:all .15s;background:#FAFAFA}
+.img-upload-btn:hover{border-color:#FF4D6D;color:#FF4D6D;background:#FFF8F8}
+.img-upload-btn span{font-size:9px;margin-top:2px;font-weight:600}
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:200;cursor:zoom-out}
 .lightbox img{max-width:90vw;max-height:90vh;border-radius:12px}
 .global-search{position:relative}
@@ -214,7 +214,7 @@ function TaskCard({t,onUpdate,onDelete}){
       e("div",{style:{marginTop:6}},e("div",{style:{fontSize:10,color:"#6E6B78",fontWeight:700,marginBottom:3}},"담당자"),e(APicker,{value:t.assignees,onChange:v=>onUpdate(t.id,{assignees:v})})),
       e("div",{style:{display:"flex",gap:6,marginTop:6}},e("select",{value:t.dept,onChange:ev=>onUpdate(t.id,{dept:ev.target.value}),style:S.sel},DEPTS.map(d=>e("option",{key:d.id,value:d.id},d.icon+" "+d.name))),e("input",{type:"date",value:t.due||"",onChange:ev=>onUpdate(t.id,{due:ev.target.value}),style:{...S.sel,fontSize:10}}))
     ):e(React.Fragment,null,e("div",{style:{fontSize:13,fontWeight:600,marginBottom:3,lineHeight:1.4}},t.title),t.note&&e("div",{style:{fontSize:11,color:"#6E6B78",lineHeight:1.5}},t.note)),
-    imgs.length>0||ed?e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(t.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(t.id,{images:imgs.filter((_,j)=>j!==i)})}):e("div",{style:{marginTop:4}},e("button",{onClick:()=>setEd(true),style:{...S.ib,fontSize:10,opacity:.3}},"📷 사진")),
+    e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(t.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(t.id,{images:imgs.filter((_,j)=>j!==i)})}),
     e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8,flexWrap:"wrap",gap:4}},
       e("div",{style:{display:"flex",gap:3}},(t.assignees||[]).map(aid=>{const m=mem(aid);return m?e("span",{key:aid,style:{display:"inline-flex",alignItems:"center",gap:2,background:m.color+"14",borderRadius:6,padding:"2px 6px"}},e("span",{style:{fontSize:10}},m.emoji),e("span",{style:{fontSize:9,color:m.color,fontWeight:600}},m.name)):null;})),
       e("div",{style:{display:"flex",gap:6,alignItems:"center"}},dl&&e("span",{style:{fontSize:9,fontWeight:600,color:dl.c}},dl.t),e("select",{value:t.status,onChange:ev=>onUpdate(t.id,{status:ev.target.value}),style:{...S.sel,fontSize:10,padding:"2px 6px",background:STATUS[t.status].bg,color:STATUS[t.status].color,fontWeight:700,border:"none"}},Object.entries(STATUS).map(([k,v])=>e("option",{key:k,value:k},v.label))))),
@@ -228,7 +228,7 @@ function IdeaCard({idea,tags,bc,onUpdate,onDelete}){
     e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},e("span",{style:{fontSize:9,fontWeight:700,color:tg.color,background:tg.color+"18",padding:"2px 7px",borderRadius:4}},tg.label),e("div",{style:{display:"flex",gap:2}},e("button",{onClick:()=>onUpdate(idea.id,{starred:!idea.starred}),style:{...S.ib,fontSize:13}},idea.starred?"⭐":"☆"),e("button",{onClick:()=>setEd(!ed),style:S.ib},"✏️"),e("button",{onClick:()=>onDelete(idea.id),style:S.ib},"🗑️"))),
     ed?e(React.Fragment,null,e("input",{value:idea.title,onChange:ev=>onUpdate(idea.id,{title:ev.target.value}),style:S.inp}),e("textarea",{value:idea.body||"",onChange:ev=>onUpdate(idea.id,{body:ev.target.value}),style:{...S.inp,height:60,resize:"vertical",marginTop:4}}),e("div",{style:{display:"flex",gap:6,marginTop:6,flexWrap:"wrap",alignItems:"center"}},e("select",{value:idea.tag,onChange:ev=>onUpdate(idea.id,{tag:ev.target.value}),style:S.sel},tags.map(t=>e("option",{key:t.id,value:t.id},t.label))),e("div",{style:{display:"flex",gap:3}},NCS.map(c=>e("button",{key:c.id,onClick:()=>onUpdate(idea.id,{color:c.id}),style:{width:16,height:16,borderRadius:"50%",background:c.bg,border:idea.color===c.id?`2px solid ${bc}`:`1px solid ${c.br}`,cursor:"pointer",padding:0}})))))
     :e(React.Fragment,null,e("div",{style:{fontSize:13.5,fontWeight:700,marginBottom:4,lineHeight:1.4}},idea.title),idea.body&&e("div",{style:{fontSize:12,color:"#444",lineHeight:1.6,whiteSpace:"pre-wrap"}},idea.body)),
-    imgs.length>0||ed?e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(idea.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(idea.id,{images:imgs.filter((_,j)=>j!==i)})}):e("div",{style:{marginTop:4}},e("button",{onClick:()=>setEd(true),style:{...S.ib,fontSize:10,opacity:.3}},"📷 사진")),
+    e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(idea.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(idea.id,{images:imgs.filter((_,j)=>j!==i)})}),
     e(Comments,{comments:cmts,onAdd:c=>onUpdate(idea.id,{comments:[...cmts,c]}),onDelete:cid=>onUpdate(idea.id,{comments:cmts.filter(x=>x.id!==cid)})}));
 }
 
