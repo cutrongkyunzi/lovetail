@@ -3,325 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>로테이션 소개팅 — 운영 보드</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<title>운영 보드</title>
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:#F6F4F7;color:#17151F;-webkit-font-smoothing:antialiased}
-::selection{background:#FF4D6D;color:#fff}
-button{font-family:inherit}
-.cmt-list{max-height:200px;overflow-y:auto}
-.cmt-item{padding:8px 0;border-bottom:1px solid #F0EEF2;font-size:12px;line-height:1.5}
-.cmt-item:last-child{border-bottom:none}
-.cmt-meta{display:flex;gap:6px;align-items:center;margin-bottom:2px}
-.cmt-author{font-weight:700;font-size:10px}
-.cmt-time{font-size:9px;color:#aaa}
-.cmt-text{color:#333}
-.cmt-input-row{display:flex;gap:4px;margin-top:6px}
-.cmt-input{flex:1;border:1px solid #E7E4EC;border-radius:6px;padding:6px 8px;font-size:12px;outline:none;font-family:inherit}
-.cmt-send{background:#17151F;color:#fff;border:none;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer}
-.cmt-toggle{display:flex;align-items:center;gap:4px;background:none;border:none;font-size:10px;color:#6E6B78;cursor:pointer;padding:2px 0;opacity:.7}
-.cmt-toggle:hover{opacity:1}
-.img-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.img-thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #E7E4EC;cursor:pointer}
-.img-upload-btn{width:72px;height:72px;border:2px dashed #ccc;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:#999;transition:all .15s;background:#FAFAFA}
-.img-upload-btn:hover{border-color:#FF4D6D;color:#FF4D6D;background:#FFF8F8}
-.img-upload-btn span{font-size:9px;margin-top:2px;font-weight:600}
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:200;cursor:zoom-out}
-.lightbox img{max-width:90vw;max-height:90vh;border-radius:12px}
-.global-search{position:relative}
-.global-search input{width:100%;border:1px solid #E7E4EC;border-radius:10px;padding:8px 14px 8px 32px;font-size:12px;outline:none;font-family:inherit;background:#fff}
-.global-search .icon{position:absolute;left:10px;top:9px;font-size:13px;opacity:.35}
-.search-results{background:#fff;border:1px solid #E7E4EC;border-radius:12px;margin-top:8px;max-height:400px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-.sr-item{padding:10px 14px;border-bottom:1px solid #F6F4F7;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
-.sr-item:hover{background:#F6F4F7}
-.sr-item:last-child{border-bottom:none}
-.sr-badge{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:nowrap}
-.sr-title{font-size:12px;font-weight:600}
-.sr-note{font-size:10px;color:#6E6B78;margin-top:2px}
-.drop-zone{border:2px dashed #E7E4EC;border-radius:12px;padding:20px;text-align:center;color:#aaa;font-size:12px;transition:all .15s}
-.drop-zone.over{border-color:#FF4D6D;background:#FFF8F8;color:#FF4D6D}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:#F6F4F7;color:#17151F}button{font-family:inherit}::selection{background:#FF4D6D;color:#fff}
+.cmt-list{max-height:200px;overflow-y:auto}.cmt-item{padding:7px 0;border-bottom:1px solid #F0EEF2;font-size:12px;line-height:1.5}.cmt-item:last-child{border-bottom:none}.cmt-meta{display:flex;gap:6px;align-items:center;margin-bottom:2px}.cmt-toggle{display:flex;align-items:center;gap:4px;background:none;border:none;font-size:10px;color:#6E6B78;cursor:pointer;padding:2px 0;opacity:.7}.cmt-toggle:hover{opacity:1}
+.img-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.img-thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #E7E4EC;cursor:pointer}
+.img-add{width:72px;height:72px;border:2px dashed #ccc;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:#999;background:#FAFAFA;transition:all .15s}.img-add:hover{border-color:#FF4D6D;color:#FF4D6D;background:#FFF8F8}.img-add span{font-size:9px;margin-top:2px;font-weight:600}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:200;cursor:zoom-out}.lightbox img{max-width:90vw;max-height:90vh;border-radius:12px}
+.gs{position:relative}.gs input{width:100%;border:1px solid #444;border-radius:10px;padding:8px 14px 8px 30px;font-size:12px;outline:none;font-family:inherit;background:#2a2835;color:#fff}.gs .ic{position:absolute;left:10px;top:9px;font-size:12px;opacity:.4}
+.sr{position:absolute;top:100%;left:0;right:0;z-index:60;background:#fff;border:1px solid #E7E4EC;border-radius:12px;margin-top:6px;max-height:350px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.1)}.sr-i{padding:10px 14px;border-bottom:1px solid #F6F4F7;cursor:pointer}.sr-i:hover{background:#F6F4F7}.sr-i:last-child{border-bottom:none}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
-const e=React.createElement,{useState,useEffect,useCallback,useRef}=React;
+const h=React.createElement,{useState,useEffect,useRef}=React;
+const MM=[{id:"me",name:"나",role:"기획",color:"#FF4D6D",emoji:"🎯"},{id:"somin",name:"소민",role:"마케팅",color:"#0EAFA0",emoji:"📢"}];
+const ST={todo:{l:"할 일",c:"#6E6B78",bg:"#F0EEF2"},doing:{l:"진행 중",c:"#E8A23D",bg:"#FFF3D6"},done:{l:"완료",c:"#0EAFA0",bg:"#DFF6F3"}};
+const DP=[{id:"plan",n:"기획",i:"🎯",c:"#FF4D6D"},{id:"mkt",n:"마케팅",i:"📢",c:"#0EAFA0"},{id:"ops",n:"운영",i:"⚙️",c:"#7F77DD"},{id:"legal",n:"법무/행정",i:"📋",c:"#E8A23D"},{id:"finance",n:"재무",i:"💰",c:"#3BB273"},{id:"content",n:"콘텐츠",i:"🎨",c:"#E0507A"}];
+const IT={plan:[{id:"format",l:"포맷/구조",c:"#FF4D6D"},{id:"theme",l:"테마",c:"#E0507A"},{id:"space",l:"공간/장소",c:"#7F77DD"},{id:"diff",l:"차별화",c:"#E8A23D"},{id:"ux",l:"참가자경험",c:"#3BB273"},{id:"ref",l:"레퍼런스",c:"#6E6B78"}],mkt:[{id:"sns",l:"SNS",c:"#0EAFA0"},{id:"copy",l:"카피",c:"#E0507A"},{id:"collab",l:"협업",c:"#7F77DD"},{id:"event",l:"이벤트",c:"#E8A23D"},{id:"brand",l:"브랜딩",c:"#FF4D6D"},{id:"viral",l:"바이럴",c:"#3BB273"}]};
+const NC=[{id:"yellow",b:"#FFF9DB",r:"#F0E68C"},{id:"pink",b:"#FFE7EB",r:"#FFC7D1"},{id:"mint",b:"#DFF6F3",r:"#BEE9E3"},{id:"purple",b:"#EEEDFE",r:"#D4D2F0"},{id:"blue",b:"#E3EFFD",r:"#B8D4F0"},{id:"white",b:"#FFF",r:"#E7E4EC"}];
+const DT=[{id:"p1",dept:"plan",title:"타겟 지역·상권 확정",as:["me"],status:"todo",note:"강남 vs 잠실·구로·성수",urg:true,due:"2026-07-31",cm:[],im:[]},{id:"p2",dept:"plan",title:"차별화 포맷 확정",as:["me"],status:"todo",note:"평가 완화, 결과 통보",urg:true,due:"2026-07-31",cm:[],im:[]},{id:"p3",dept:"plan",title:"타겟 고객층 정의",as:["me"],status:"todo",note:"효율추구 vs 회복·치유형",urg:false,due:"2026-07-31",cm:[],im:[]},{id:"p4",dept:"plan",title:"참가비·인원 확정",as:["me"],status:"done",note:"5만원 통일, 8:8",urg:false,due:"",cm:[],im:[]},{id:"p5",dept:"plan",title:"경쟁사 벤치마킹",as:["me"],status:"done",note:"오렌지들, 연인어때 등",urg:false,due:"",cm:[],im:[]},{id:"p6",dept:"plan",title:"진행 매뉴얼 작성",as:["me","somin"],status:"todo",note:"아이스브레이커, 질문카드",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"p7",dept:"plan",title:"프로필 검증 프로세스",as:["me"],status:"todo",note:"직업 인증, 신분 확인",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"m1",dept:"mkt",title:"인스타 채널 개설",as:["somin"],status:"todo",note:"브랜드 계정",urg:false,due:"2026-09-01",cm:[],im:[]},{id:"m2",dept:"mkt",title:"카카오 채널 개설",as:["somin"],status:"todo",note:"신청·문의",urg:false,due:"2026-09-01",cm:[],im:[]},{id:"m3",dept:"mkt",title:"키워드 SEO",as:["somin"],status:"todo",note:"'로테이션소개팅' 집중",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"m4",dept:"mkt",title:"웨이팅리스트 모집",as:["somin"],status:"todo",note:"사전 수요 확보",urg:true,due:"2026-09-30",cm:[],im:[]},{id:"m5",dept:"mkt",title:"얼리버드 프로모션",as:["somin","me"],status:"todo",note:"파일럿 모집",urg:false,due:"2026-09-20",cm:[],im:[]},{id:"m6",dept:"mkt",title:"후기 콘텐츠 전략",as:["somin"],status:"todo",note:"후기=신뢰도",urg:false,due:"2026-09-30",cm:[],im:[]},{id:"o1",dept:"ops",title:"공간 후보 리스트업",as:["me","somin"],status:"todo",note:"2-3곳",urg:false,due:"2026-08-31",cm:[],im:[]},{id:"o2",dept:"ops",title:"공간 대관 계약",as:["me"],status:"todo",note:"요금·수용인원",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"o3",dept:"ops",title:"다과/물품 준비",as:["somin"],status:"todo",note:"음료,네임택,카드",urg:false,due:"2026-09-20",cm:[],im:[]},{id:"o4",dept:"ops",title:"파일럿 테스트",as:["me","somin"],status:"todo",note:"9월말~10월초",urg:true,due:"2026-10-05",cm:[],im:[]},{id:"o5",dept:"ops",title:"신청·결제 시스템",as:["somin"],status:"todo",note:"폼+토스",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"l1",dept:"legal",title:"사업자등록",as:["me"],status:"todo",note:"업종코드 확인",urg:true,due:"2026-08-10",cm:[],im:[]},{id:"l2",dept:"legal",title:"결혼중개업 서면문의",as:["me"],status:"todo",note:"구청 critical path",urg:true,due:"2026-08-10",cm:[],im:[]},{id:"l3",dept:"legal",title:"통신판매업 신고",as:["me"],status:"todo",note:"4만원",urg:false,due:"2026-08-15",cm:[],im:[]},{id:"l4",dept:"legal",title:"개인정보 처리방침",as:["me"],status:"todo",note:"동의서",urg:false,due:"2026-09-15",cm:[],im:[]},{id:"f1",dept:"finance",title:"사업용 통장",as:["me"],status:"todo",note:"",urg:false,due:"2026-08-15",cm:[],im:[]},{id:"f2",dept:"finance",title:"지원금 검토",as:["me"],status:"done",note:"세액감면 우선",urg:false,due:"",cm:[],im:[]},{id:"f3",dept:"finance",title:"세액감면 업종코드",as:["me"],status:"todo",note:"홈택스 확인",urg:false,due:"2026-08-10",cm:[],im:[]},{id:"c1",dept:"content",title:"브랜드명 확정",as:["somin","me"],status:"todo",note:"",urg:true,due:"2026-08-20",cm:[],im:[]},{id:"c2",dept:"content",title:"로고 디자인",as:["somin"],status:"todo",note:"자체 제작",urg:false,due:"2026-09-10",cm:[],im:[]},{id:"c3",dept:"content",title:"톤앤매너 가이드",as:["somin"],status:"todo",note:"컬러,폰트,말투",urg:false,due:"2026-09-10",cm:[],im:[]},{id:"c4",dept:"content",title:"인스타 콘텐츠 10개",as:["somin"],status:"todo",note:"한달치 축적",urg:false,due:"2026-09-30",cm:[],im:[]},{id:"c5",dept:"content",title:"질문카드·프로필카드",as:["somin","me"],status:"todo",note:"인쇄물",urg:false,due:"2026-09-20",cm:[],im:[]}];
+const DI=[{id:"s1",bd:"plan",tg:"diff",cl:"yellow",title:"프로필 카드 후공개",body:"질문 카드로 먼저 대화 후 프로필 공개",st:true,cm:[],im:[]},{id:"s2",bd:"plan",tg:"diff",cl:"pink",title:"거절 공포 제거",body:"개인 DM으로 결과 통보",st:true,cm:[],im:[]},{id:"s3",bd:"plan",tg:"diff",cl:"mint",title:"관계 지속 설계",body:"매칭 후 가이드 제공",st:false,cm:[],im:[]},{id:"s4",bd:"plan",tg:"format",cl:"yellow",title:"2트랙 분리",body:"가볍게 vs 적극적",st:false,cm:[],im:[]},{id:"s5",bd:"plan",tg:"theme",cl:"purple",title:"연말 테마",body:"크리스마스, 새해",st:false,cm:[],im:[]},{id:"s6",bd:"plan",tg:"ux",cl:"blue",title:"질문카드 시스템",body:"가벼운것→깊게",st:false,cm:[],im:[]},{id:"s7",bd:"plan",tg:"space",cl:"white",title:"성수동 카페",body:"팝업 문화 지역",st:false,cm:[],im:[]},{id:"s8",bd:"plan",tg:"ref",cl:"yellow",title:"비긴어게인",body:"1650회,28쌍 결혼",st:false,cm:[],im:[]},{id:"s9",bd:"mkt",tg:"sns",cl:"mint",title:"인스타 방향",body:"스냅+후기 카드뉴스",st:true,cm:[],im:[]},{id:"s10",bd:"mkt",tg:"copy",cl:"pink",title:"핵심 카피",body:"조건말고 대화로먼저",st:true,cm:[],im:[]},{id:"s11",bd:"mkt",tg:"viral",cl:"yellow",title:"후기 바이럴",body:"후기시 5천원할인",st:false,cm:[],im:[]},{id:"s12",bd:"mkt",tg:"event",cl:"purple",title:"얼리버드",body:"파일럿 무료/반값",st:false,cm:[],im:[]},{id:"s13",bd:"mkt",tg:"collab",cl:"blue",title:"카페 제휴",body:"유휴시간 대관",st:false,cm:[],im:[]},{id:"s14",bd:"mkt",tg:"brand",cl:"white",title:"브랜드 톤",body:"따뜻하고 자연스러운",st:true,cm:[],im:[]},{id:"s15",bd:"mkt",tg:"sns",cl:"yellow",title:"검색패턴 활용",body:"수~목 공지 최적",st:false,cm:[],im:[]}];
 
-const MEMBERS=[{id:"me",name:"나",role:"기획",color:"#FF4D6D",emoji:"🎯"},{id:"somin",name:"소민",role:"마케팅",color:"#0EAFA0",emoji:"📢"}];
-const STATUS={todo:{label:"할 일",color:"#6E6B78",bg:"#F0EEF2"},doing:{label:"진행 중",color:"#E8A23D",bg:"#FFF3D6"},done:{label:"완료",color:"#0EAFA0",bg:"#DFF6F3"}};
-const DEPTS=[{id:"plan",name:"기획",icon:"🎯",color:"#FF4D6D"},{id:"mkt",name:"마케팅",icon:"📢",color:"#0EAFA0"},{id:"ops",name:"운영",icon:"⚙️",color:"#7F77DD"},{id:"legal",name:"법무/행정",icon:"📋",color:"#E8A23D"},{id:"finance",name:"재무",icon:"💰",color:"#3BB273"},{id:"content",name:"콘텐츠",icon:"🎨",color:"#E0507A"}];
-const ITAGS={
-  plan:[{id:"format",label:"포맷/구조",color:"#FF4D6D"},{id:"theme",label:"테마",color:"#E0507A"},{id:"space",label:"공간/장소",color:"#7F77DD"},{id:"diff",label:"차별화",color:"#E8A23D"},{id:"ux",label:"참가자 경험",color:"#3BB273"},{id:"ref",label:"레퍼런스",color:"#6E6B78"}],
-  mkt:[{id:"sns",label:"SNS",color:"#0EAFA0"},{id:"copy",label:"카피/메시지",color:"#E0507A"},{id:"collab",label:"협업/제휴",color:"#7F77DD"},{id:"event",label:"이벤트",color:"#E8A23D"},{id:"brand",label:"브랜딩",color:"#FF4D6D"},{id:"viral",label:"바이럴",color:"#3BB273"}]
-};
-const NCS=[{id:"yellow",bg:"#FFF9DB",br:"#F0E68C"},{id:"pink",bg:"#FFE7EB",br:"#FFC7D1"},{id:"mint",bg:"#DFF6F3",br:"#BEE9E3"},{id:"purple",bg:"#EEEDFE",br:"#D4D2F0"},{id:"blue",bg:"#E3EFFD",br:"#B8D4F0"},{id:"white",bg:"#FFF",br:"#E7E4EC"}];
-
-const DT=[
-  {id:"p1",dept:"plan",title:"타겟 지역·상권 확정",assignees:["me"],status:"todo",note:"강남 vs 잠실·구로·영등포·성수",urgent:true,due:"2026-07-31",comments:[],images:[]},
-  {id:"p2",dept:"plan",title:"차별화 포맷 확정",assignees:["me"],status:"todo",note:"평가 완화, 결과 통보 방식",urgent:true,due:"2026-07-31",comments:[],images:[]},
-  {id:"p3",dept:"plan",title:"타겟 고객층 정의",assignees:["me"],status:"todo",note:"효율추구형 vs 회복·치유형",urgent:false,due:"2026-07-31",comments:[],images:[]},
-  {id:"p4",dept:"plan",title:"참가비·인원 구조 확정",assignees:["me"],status:"done",note:"남녀 5만원 통일, 8:8",urgent:false,due:"",comments:[],images:[]},
-  {id:"p5",dept:"plan",title:"경쟁사 벤치마킹",assignees:["me"],status:"done",note:"감정적인 오렌지들, 연인어때 등",urgent:false,due:"",comments:[],images:[]},
-  {id:"p6",dept:"plan",title:"진행 매뉴얼 작성",assignees:["me","somin"],status:"todo",note:"아이스브레이커, 질문카드",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"p7",dept:"plan",title:"프로필 검증 프로세스",assignees:["me"],status:"todo",note:"직업 인증, 신분 확인",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"m1",dept:"mkt",title:"인스타그램 채널 개설",assignees:["somin"],status:"todo",note:"브랜드 계정 + 콘텐츠 플랜",urgent:false,due:"2026-09-01",comments:[],images:[]},
-  {id:"m2",dept:"mkt",title:"카카오 채널 개설",assignees:["somin"],status:"todo",note:"신청·문의 접수",urgent:false,due:"2026-09-01",comments:[],images:[]},
-  {id:"m3",dept:"mkt",title:"키워드 SEO",assignees:["somin"],status:"todo",note:"'로테이션소개팅' 집중",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"m4",dept:"mkt",title:"웨이팅리스트 모집",assignees:["somin"],status:"todo",note:"런칭 전 사전 수요 확보",urgent:true,due:"2026-09-30",comments:[],images:[]},
-  {id:"m5",dept:"mkt",title:"얼리버드 프로모션",assignees:["somin","me"],status:"todo",note:"파일럿 참가자 모집",urgent:false,due:"2026-09-20",comments:[],images:[]},
-  {id:"m6",dept:"mkt",title:"후기 콘텐츠 전략",assignees:["somin"],status:"todo",note:"후기 수 ≈ 신뢰도",urgent:false,due:"2026-09-30",comments:[],images:[]},
-  {id:"o1",dept:"ops",title:"공간 후보 리스트업",assignees:["me","somin"],status:"todo",note:"카페/파티룸 2-3곳",urgent:false,due:"2026-08-31",comments:[],images:[]},
-  {id:"o2",dept:"ops",title:"공간 대관 계약",assignees:["me"],status:"todo",note:"시간대·요금·수용인원",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"o3",dept:"ops",title:"다과/물품 준비",assignees:["somin"],status:"todo",note:"음료, 네임택, 카드",urgent:false,due:"2026-09-20",comments:[],images:[]},
-  {id:"o4",dept:"ops",title:"파일럿 테스트",assignees:["me","somin"],status:"todo",note:"9월 말~10월 초 베타",urgent:true,due:"2026-10-05",comments:[],images:[]},
-  {id:"o5",dept:"ops",title:"신청·결제 시스템",assignees:["somin"],status:"todo",note:"폼 + 토스",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"l1",dept:"legal",title:"사업자등록",assignees:["me"],status:"todo",note:"업종코드 확인",urgent:true,due:"2026-08-10",comments:[],images:[]},
-  {id:"l2",dept:"legal",title:"결혼중개업 서면 문의",assignees:["me"],status:"todo",note:"관할 구청 — critical path",urgent:true,due:"2026-08-10",comments:[],images:[]},
-  {id:"l3",dept:"legal",title:"통신판매업 신고",assignees:["me"],status:"todo",note:"등록면허세 약 4만원",urgent:false,due:"2026-08-15",comments:[],images:[]},
-  {id:"l4",dept:"legal",title:"개인정보 처리방침",assignees:["me"],status:"todo",note:"수집·활용 동의서",urgent:false,due:"2026-09-15",comments:[],images:[]},
-  {id:"f1",dept:"finance",title:"사업용 통장 개설",assignees:["me"],status:"todo",note:"",urgent:false,due:"2026-08-15",comments:[],images:[]},
-  {id:"f2",dept:"finance",title:"창업 지원금 검토",assignees:["me"],status:"done",note:"세액감면 우선",urgent:false,due:"",comments:[],images:[]},
-  {id:"f3",dept:"finance",title:"세액감면 업종코드 확인",assignees:["me"],status:"todo",note:"홈택스 확인",urgent:false,due:"2026-08-10",comments:[],images:[]},
-  {id:"c1",dept:"content",title:"브랜드명 확정",assignees:["somin","me"],status:"todo",note:"",urgent:true,due:"2026-08-20",comments:[],images:[]},
-  {id:"c2",dept:"content",title:"로고 디자인",assignees:["somin"],status:"todo",note:"자체 제작",urgent:false,due:"2026-09-10",comments:[],images:[]},
-  {id:"c3",dept:"content",title:"톤앤매너 가이드",assignees:["somin"],status:"todo",note:"컬러, 폰트, 말투",urgent:false,due:"2026-09-10",comments:[],images:[]},
-  {id:"c4",dept:"content",title:"인스타 콘텐츠 10개",assignees:["somin"],status:"todo",note:"한 달치 축적",urgent:false,due:"2026-09-30",comments:[],images:[]},
-  {id:"c5",dept:"content",title:"질문카드·프로필카드",assignees:["somin","me"],status:"todo",note:"현장 인쇄물",urgent:false,due:"2026-09-20",comments:[],images:[]},
-];
-
-const DI=[
-  {id:"s1",board:"plan",tag:"diff",color:"yellow",title:"프로필 카드 후공개",body:"대화 초반엔 프로필 안 보여주고 질문 카드로 먼저 대화",starred:true,comments:[],images:[]},
-  {id:"s2",board:"plan",tag:"diff",color:"pink",title:"거절 공포 제거 설계",body:"개인 DM으로 결과 통보",starred:true,comments:[],images:[]},
-  {id:"s3",board:"plan",tag:"diff",color:"mint",title:"관계 지속 설계",body:"매칭 후 다음 만남 가이드 제공",starred:false,comments:[],images:[]},
-  {id:"s4",board:"plan",tag:"format",color:"yellow",title:"2트랙 분리",body:"가볍게 만나기 vs 적극적 인연 찾기",starred:false,comments:[],images:[]},
-  {id:"s5",board:"plan",tag:"theme",color:"purple",title:"연말 테마",body:"크리스마스, 버킷리스트, 새해 첫 만남",starred:false,comments:[],images:[]},
-  {id:"s6",board:"plan",tag:"ux",color:"blue",title:"질문카드 시스템",body:"가벼운 것부터 점점 깊게",starred:false,comments:[],images:[]},
-  {id:"s7",board:"plan",tag:"space",color:"white",title:"성수동 카페 후보",body:"팝업·전시 문화 강한 지역",starred:false,comments:[],images:[]},
-  {id:"s8",board:"plan",tag:"ref",color:"yellow",title:"비긴어게인 벤치마킹",body:"누적 1,650회, 28쌍 결혼",starred:false,comments:[],images:[]},
-  {id:"s9",board:"mkt",tag:"sns",color:"mint",title:"인스타 콘텐츠 방향",body:"현장 스냅 + 후기 카드뉴스",starred:true,comments:[],images:[]},
-  {id:"s10",board:"mkt",tag:"copy",color:"pink",title:"핵심 카피 후보",body:"\"조건 말고, 대화로 먼저\"",starred:true,comments:[],images:[]},
-  {id:"s11",board:"mkt",tag:"viral",color:"yellow",title:"후기 바이럴",body:"후기 작성 시 5천원 할인",starred:false,comments:[],images:[]},
-  {id:"s12",board:"mkt",tag:"event",color:"purple",title:"얼리버드",body:"파일럿 무료/반값",starred:false,comments:[],images:[]},
-  {id:"s13",board:"mkt",tag:"collab",color:"blue",title:"카페 제휴",body:"유휴 시간대 대관 + 단골 전환",starred:false,comments:[],images:[]},
-  {id:"s14",board:"mkt",tag:"brand",color:"white",title:"브랜드 톤",body:"따뜻하고 자연스러운 진정성",starred:true,comments:[],images:[]},
-  {id:"s15",board:"mkt",tag:"sns",color:"yellow",title:"검색 패턴 활용",body:"수~목 공지가 최적",starred:false,comments:[],images:[]},
-];
-
-// === STORAGE: 절대 키를 바꾸지 않아야 데이터가 유지됩니다 ===
 const SK="rotation-board-final";
-function migrate(d){d.tasks=(d.tasks||[]).map(t=>({comments:[],images:[],...t}));d.ideas=(d.ideas||[]).map(i=>({comments:[],images:[],...i}));return d;}
-function loadData(){
-  try{
-    // 현재 키에서 먼저 읽기
-    let s=localStorage.getItem(SK);
-    if(s) return migrate(JSON.parse(s));
-    // 이전 버전 키에서 마이그레이션
-    for(const old of ["rotation-board-v3","rotation-board-v2","rotation-biz-v2"]){
-      s=localStorage.getItem(old);
-      if(s){const d=migrate(JSON.parse(s));localStorage.setItem(SK,JSON.stringify(d));return d;}
-    }
-  }catch{}
-  return{tasks:DT,ideas:DI};
-}
-function saveData(d){try{localStorage.setItem(SK,JSON.stringify(d));}catch(err){alert("저장 공간이 부족합니다. 사용하지 않는 이미지를 삭제해주세요.");}}
+function migrate(d){d.tasks=(d.tasks||[]).map(function(t){return Object.assign({cm:[],im:[],as:t.assignees||t.as||["me"],urg:t.urgent||t.urg||false},t)});d.ideas=(d.ideas||[]).map(function(i){return Object.assign({cm:[],im:[],st:i.starred||i.st||false,bd:i.board||i.bd||"plan",tg:i.tag||i.tg||"diff",cl:i.color||i.cl||"yellow"},i)});return d;}
+function load(){try{var s=localStorage.getItem(SK);if(s)return migrate(JSON.parse(s));for(var k of["rotation-board-v3","rotation-board-v2","rotation-biz-v2"]){s=localStorage.getItem(k);if(s){var d=migrate(JSON.parse(s));localStorage.setItem(SK,JSON.stringify(d));return d;}}}catch(e){}return{tasks:DT,ideas:DI};}
+function save(d){try{localStorage.setItem(SK,JSON.stringify(d))}catch(e){alert("저장 공간 부족. 이미지를 줄여주세요.")}}
 
-const mem=id=>MEMBERS.find(m=>m.id===id);
-const dep=id=>DEPTS.find(d=>d.id===id);
-const todayS=new Date().toISOString().slice(0,10);
-function dueL(due){if(!due)return null;const d=Math.ceil((new Date(due)-new Date(todayS))/864e5);if(d<0)return{t:`${-d}일 지남`,c:"#C00000"};if(d===0)return{t:"오늘",c:"#E23A57"};if(d<=7)return{t:`${d}일 남음`,c:"#E8A23D"};return{t:due.slice(5).replace("-","/"),c:"#6E6B78"};}
-function fmtTime(ts){const d=new Date(ts);return`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+var mem=function(id){return MM.find(function(m){return m.id===id})};
+var dep=function(id){return DP.find(function(d){return d.id===id})};
+var td=new Date().toISOString().slice(0,10);
+function dueL(due){if(!due)return null;var d=Math.ceil((new Date(due)-new Date(td))/864e5);if(d<0)return{t:-d+"일 지남",c:"#C00000"};if(d===0)return{t:"오늘",c:"#E23A57"};if(d<=7)return{t:d+"일 남음",c:"#E8A23D"};return{t:due.slice(5).replace("-","/"),c:"#6E6B78"}}
+function fmtT(ts){var d=new Date(ts);return(d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function resize(file,cb){var r=new FileReader();r.onload=function(ev){var img=new Image();img.onload=function(){var M=600,w=img.width,ht=img.height;if(w>M){ht=ht*(M/w);w=M}if(ht>M){w=w*(M/ht);ht=M}var c=document.createElement("canvas");c.width=w;c.height=ht;c.getContext("2d").drawImage(img,0,0,w,ht);cb(c.toDataURL("image/jpeg",0.7))};img.src=ev.target.result};r.readAsDataURL(file)}
 
-// 이미지 리사이즈 (max 600px, JPEG 70%)
-function resizeImg(file,cb){
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const img=new Image();
-    img.onload=()=>{
-      const MAX=600;let w=img.width,h=img.height;
-      if(w>MAX){h=h*(MAX/w);w=MAX;}
-      if(h>MAX){w=w*(MAX/h);h=MAX;}
-      const c=document.createElement("canvas");c.width=w;c.height=h;
-      c.getContext("2d").drawImage(img,0,0,w,h);
-      cb(c.toDataURL("image/jpeg",0.7));
-    };
-    img.src=ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
+var cs={background:"transparent",border:"1px solid #E7E4EC",borderRadius:999,padding:"4px 10px",fontSize:10,fontWeight:600,color:"#6E6B78",cursor:"pointer"};
+var ib={background:"none",border:"none",fontSize:11,cursor:"pointer",padding:2,opacity:.4};
+var inp={width:"100%",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 10px",fontSize:13,outline:"none",fontFamily:"inherit",boxSizing:"border-box"};
+var sel={border:"1px solid #E7E4EC",borderRadius:6,padding:"4px 8px",fontSize:11,outline:"none",fontFamily:"inherit",cursor:"pointer"};
 
-const S={
-  chip:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:999,padding:"4px 10px",fontSize:10,fontWeight:600,color:"#6E6B78",cursor:"pointer"},
-  chipOn:{background:"#17151F",color:"#fff",borderColor:"#17151F"},
-  ib:{background:"none",border:"none",fontSize:11,cursor:"pointer",padding:2,opacity:.4},
-  inp:{width:"100%",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 10px",fontSize:13,outline:"none",fontFamily:"inherit",boxSizing:"border-box"},
-  sel:{border:"1px solid #E7E4EC",borderRadius:6,padding:"4px 8px",fontSize:11,outline:"none",fontFamily:"inherit",cursor:"pointer"},
-};
+function Chip(p){return h("button",{style:Object.assign({},cs,p.on?(p.color?{background:p.color,color:"#fff",borderColor:p.color}:{background:"#17151F",color:"#fff",borderColor:"#17151F"}):{})  ,onClick:p.onClick},p.children)}
+function Lbl(p){return h("div",{style:{fontSize:11,fontWeight:700,color:"#6E6B78",marginBottom:3,marginTop:8}},p.children)}
+function Modal(p){return h("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100},onClick:p.onClose},h("div",{style:{background:"#fff",borderRadius:16,padding:22,width:420,maxWidth:"92vw",maxHeight:"90vh",overflow:"auto"},onClick:function(e){e.stopPropagation()}},h("div",{style:{fontSize:16,fontWeight:800,marginBottom:14}},p.title),p.children))}
 
-function Chip({on,color,children,...p}){return e("button",{style:{...S.chip,...(on?(color?{background:color,color:"#fff",borderColor:color}:S.chipOn):{})},...p},children);}
-function Lbl({children}){return e("div",{style:{fontSize:11,fontWeight:700,color:"#6E6B78",marginBottom:3,marginTop:8}},children);}
-function APicker({value=[],onChange,sz}){
-  const toggle=id=>{const n=value.includes(id)?value.filter(v=>v!==id):[...value,id];if(n.length)onChange(n);};
-  return e("div",{style:{display:"flex",gap:4}},MEMBERS.map(m=>{const on=value.includes(m.id);return e("button",{key:m.id,onClick:()=>toggle(m.id),style:{display:"flex",alignItems:"center",gap:4,background:on?m.color+"18":"transparent",border:on?`1.5px solid ${m.color}`:"1.5px solid #E7E4EC",borderRadius:8,padding:sz==="md"?"5px 10px":"3px 8px",fontSize:sz==="md"?12:10,fontWeight:600,color:on?m.color:"#aaa",cursor:"pointer"}},m.emoji+" "+m.name);}));
-}
-function Modal({onClose,title,children}){return e("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100},onClick:onClose},e("div",{style:{background:"#fff",borderRadius:16,padding:22,width:420,maxWidth:"92vw",maxHeight:"90vh",overflow:"auto"},onClick:ev=>ev.stopPropagation()},e("div",{style:{fontSize:16,fontWeight:800,marginBottom:14}},title),children));}
+function APick(p){var val=p.value||[];return h("div",{style:{display:"flex",gap:4}},MM.map(function(m){var on=val.indexOf(m.id)>=0;return h("button",{key:m.id,onClick:function(){var n=on?val.filter(function(v){return v!==m.id}):val.concat(m.id);if(n.length)p.onChange(n)},style:{display:"flex",alignItems:"center",gap:4,background:on?m.color+"18":"transparent",border:on?"1.5px solid "+m.color:"1.5px solid #E7E4EC",borderRadius:8,padding:p.sz==="md"?"5px 10px":"3px 8px",fontSize:p.sz==="md"?12:10,fontWeight:600,color:on?m.color:"#aaa",cursor:"pointer"}},m.emoji+" "+m.name)}))}
 
-// === ImageAttach ===
-function ImageAttach({images=[],onAdd,onRemove}){
-  const[lightbox,setLightbox]=useState(null);
-  const[dragOver,setDragOver]=useState(false);
-  const fileRef=useRef();
-  const handleFiles=files=>{Array.from(files).filter(f=>f.type.startsWith("image/")).forEach(f=>resizeImg(f,b64=>onAdd(b64)));};
-  const onDrop=ev=>{ev.preventDefault();setDragOver(false);handleFiles(ev.dataTransfer.files);};
-  return e(React.Fragment,null,
-    e("div",{className:"img-grid"},
-      images.map((img,i)=>e("div",{key:i,style:{position:"relative",display:"inline-block"}},
-        e("img",{src:img,className:"img-thumb",onClick:()=>setLightbox(img)}),
-        e("button",{onClick:()=>onRemove(i),style:{position:"absolute",top:-4,right:-4,width:16,height:16,borderRadius:"50%",background:"#E23A57",color:"#fff",border:"none",fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}},"✕"))),
-      e("div",{className:`img-upload-btn ${dragOver?"drop-zone over":""}`,onClick:()=>fileRef.current.click(),onDragOver:ev=>{ev.preventDefault();setDragOver(true);},onDragLeave:()=>setDragOver(false),onDrop},
-        "📷",e("span",null,"추가")),
-      e("input",{ref:fileRef,type:"file",accept:"image/*",multiple:true,style:{display:"none"},onChange:ev=>{handleFiles(ev.target.files);ev.target.value="";}})),
-    lightbox&&e("div",{className:"lightbox",onClick:()=>setLightbox(null)},e("img",{src:lightbox})));
-}
+function Imgs(p){var imgs=p.images||[];var lb=useState(null),lbv=lb[0],setLb=lb[1];var fr=useRef();
+  function handleF(files){Array.from(files).filter(function(f){return f.type.startsWith("image/")}).forEach(function(f){resize(f,function(b){p.onAdd(b)})})}
+  return h(React.Fragment,null,
+    h("div",{className:"img-grid"},
+      imgs.map(function(img,i){return h("div",{key:i,style:{position:"relative",display:"inline-block"}},
+        h("img",{src:img,className:"img-thumb",onClick:function(){setLb(img)}}),
+        h("button",{onClick:function(){p.onRemove(i)},style:{position:"absolute",top:-4,right:-4,width:16,height:16,borderRadius:"50%",background:"#E23A57",color:"#fff",border:"none",fontSize:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}},"✕"))}),
+      h("div",{className:"img-add",onClick:function(){fr.current.click()},onDragOver:function(e){e.preventDefault()},onDrop:function(e){e.preventDefault();handleF(e.dataTransfer.files)}},
+        "📷",h("span",null,"추가")),
+      h("input",{ref:fr,type:"file",accept:"image/*",multiple:true,style:{display:"none"},onChange:function(e){handleF(e.target.files);e.target.value=""}})),
+    lbv&&h("div",{className:"lightbox",onClick:function(){setLb(null)}},h("img",{src:lbv})))}
 
-// === Comments ===
-function Comments({comments=[],onAdd,onDelete}){
-  const[open,setOpen]=useState(false);const[text,setText]=useState("");const[author,setAuthor]=useState("me");const ref=useRef();
-  const send=()=>{if(!text.trim())return;onAdd({id:"cm"+Date.now(),author,text:text.trim(),time:Date.now()});setText("");};
-  return e("div",{style:{marginTop:8,borderTop:"1px dashed #E7E4EC",paddingTop:6}},
-    e("button",{className:"cmt-toggle",onClick:()=>{setOpen(!open);if(!open)setTimeout(()=>ref.current&&ref.current.focus(),100);}},"💬 ",comments.length>0?`${comments.length}`:"코멘트",open?" ▲":" ▼"),
-    open&&e("div",{style:{marginTop:6}},
-      comments.length>0&&e("div",{className:"cmt-list"},comments.map(c=>{const m=mem(c.author);return e("div",{key:c.id,className:"cmt-item"},e("div",{className:"cmt-meta"},e("span",{style:{fontSize:12}},m?m.emoji:""),e("span",{className:"cmt-author",style:{color:m?m.color:"#333"}},m?m.name:""),e("span",{className:"cmt-time"},fmtTime(c.time)),e("button",{onClick:()=>onDelete(c.id),style:{...S.ib,fontSize:10,marginLeft:"auto"}},"✕")),e("div",{className:"cmt-text"},c.text));})),
-      e("div",{className:"cmt-input-row"},
-        e("select",{value:author,onChange:ev=>setAuthor(ev.target.value),style:{...S.sel,fontSize:10,padding:"4px 6px",width:52}},MEMBERS.map(m=>e("option",{key:m.id,value:m.id},m.emoji))),
-        e("input",{ref,className:"cmt-input",value:text,onChange:ev=>setText(ev.target.value),onKeyDown:ev=>{if(ev.key==="Enter"){ev.preventDefault();send();}},placeholder:"코멘트 입력 후 Enter..."}),
-        e("button",{className:"cmt-send",onClick:send},"전송"))));
-}
+function Cmts(p){var cms=p.comments||[];var op=useState(false),isOpen=op[0],setOp=op[1];var tx=useState(""),txt=tx[0],setTx=tx[1];var au=useState("me"),auth=au[0],setAu=au[1];var ref=useRef();
+  function send(){if(!txt.trim())return;p.onAdd({id:"c"+Date.now(),a:auth,t:txt.trim(),ts:Date.now()});setTx("")}
+  return h("div",{style:{marginTop:8,borderTop:"1px dashed #E7E4EC",paddingTop:6}},
+    h("button",{className:"cmt-toggle",onClick:function(){setOp(!isOpen);if(!isOpen)setTimeout(function(){ref.current&&ref.current.focus()},100)}},"💬 "+(cms.length>0?cms.length:"코멘트")+(isOpen?" ▲":" ▼")),
+    isOpen&&h("div",{style:{marginTop:6}},
+      cms.length>0&&h("div",{className:"cmt-list"},cms.map(function(c){var m=mem(c.a||c.author);return h("div",{key:c.id,className:"cmt-item"},h("div",{className:"cmt-meta"},h("span",{style:{fontSize:12}},m?m.emoji:""),h("span",{style:{fontWeight:700,fontSize:10,color:m?m.color:"#333"}},m?m.name:""),h("span",{style:{fontSize:9,color:"#aaa"}},fmtT(c.ts||c.time)),h("button",{onClick:function(){p.onDelete(c.id)},style:Object.assign({},ib,{fontSize:10,marginLeft:"auto"})},"✕")),h("div",{style:{color:"#333"}},c.t||c.text))})),
+      h("div",{style:{display:"flex",gap:4,marginTop:6}},
+        h("select",{value:auth,onChange:function(e){setAu(e.target.value)},style:Object.assign({},sel,{fontSize:10,padding:"4px 6px",width:52})},MM.map(function(m){return h("option",{key:m.id,value:m.id},m.emoji)})),
+        h("input",{ref:ref,value:txt,onChange:function(e){setTx(e.target.value)},onKeyDown:function(e){if(e.key==="Enter"){e.preventDefault();send()}},placeholder:"코멘트 입력 후 Enter...",style:{flex:1,border:"1px solid #E7E4EC",borderRadius:6,padding:"6px 8px",fontSize:12,outline:"none",fontFamily:"inherit"}}),
+        h("button",{onClick:send,style:{background:"#17151F",color:"#fff",border:"none",borderRadius:6,padding:"6px 10px",fontSize:11,fontWeight:700,cursor:"pointer"}},"전송"))))}
 
-// === TaskCard ===
-function TaskCard({t,onUpdate,onDelete}){
-  const[ed,setEd]=useState(false);const d=dep(t.dept);const dl=dueL(t.due);const imgs=t.images||[];const cmts=t.comments||[];
-  return e("div",{style:{background:t.urgent?"#FFF8F8":"#fff",border:`1px solid ${t.urgent?"#FFD0D0":"#E7E4EC"}`,borderRadius:12,padding:14,borderLeft:`3px solid ${d.color}`}},
-    e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6,alignItems:"center"}},
-      e("div",{style:{display:"flex",gap:4,alignItems:"center"}},e("span",{style:{fontSize:9,fontWeight:700,color:d.color,background:d.color+"18",padding:"2px 6px",borderRadius:4}},d.icon+" "+d.name),t.urgent&&e("span",{style:{fontSize:8,fontWeight:800,color:"#E23A57",background:"#FFE7EB",padding:"2px 5px",borderRadius:4}},"🔥")),
-      e("div",{style:{display:"flex",gap:3}},e("button",{onClick:()=>onUpdate(t.id,{urgent:!t.urgent}),style:{...S.ib,opacity:t.urgent?1:.3,fontSize:12}},"🔥"),e("button",{onClick:()=>setEd(!ed),style:S.ib},"✏️"),e("button",{onClick:()=>onDelete(t.id),style:S.ib},"🗑️"))),
-    ed?e(React.Fragment,null,
-      e("input",{value:t.title,onChange:ev=>onUpdate(t.id,{title:ev.target.value}),style:S.inp}),
-      e("textarea",{value:t.note||"",onChange:ev=>onUpdate(t.id,{note:ev.target.value}),style:{...S.inp,height:44,resize:"vertical",marginTop:4},placeholder:"메모"}),
-      e("div",{style:{marginTop:6}},e("div",{style:{fontSize:10,color:"#6E6B78",fontWeight:700,marginBottom:3}},"담당자"),e(APicker,{value:t.assignees,onChange:v=>onUpdate(t.id,{assignees:v})})),
-      e("div",{style:{display:"flex",gap:6,marginTop:6}},e("select",{value:t.dept,onChange:ev=>onUpdate(t.id,{dept:ev.target.value}),style:S.sel},DEPTS.map(d=>e("option",{key:d.id,value:d.id},d.icon+" "+d.name))),e("input",{type:"date",value:t.due||"",onChange:ev=>onUpdate(t.id,{due:ev.target.value}),style:{...S.sel,fontSize:10}}))
-    ):e(React.Fragment,null,e("div",{style:{fontSize:13,fontWeight:600,marginBottom:3,lineHeight:1.4}},t.title),t.note&&e("div",{style:{fontSize:11,color:"#6E6B78",lineHeight:1.5}},t.note)),
-    e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(t.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(t.id,{images:imgs.filter((_,j)=>j!==i)})}),
-    e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8,flexWrap:"wrap",gap:4}},
-      e("div",{style:{display:"flex",gap:3}},(t.assignees||[]).map(aid=>{const m=mem(aid);return m?e("span",{key:aid,style:{display:"inline-flex",alignItems:"center",gap:2,background:m.color+"14",borderRadius:6,padding:"2px 6px"}},e("span",{style:{fontSize:10}},m.emoji),e("span",{style:{fontSize:9,color:m.color,fontWeight:600}},m.name)):null;})),
-      e("div",{style:{display:"flex",gap:6,alignItems:"center"}},dl&&e("span",{style:{fontSize:9,fontWeight:600,color:dl.c}},dl.t),e("select",{value:t.status,onChange:ev=>onUpdate(t.id,{status:ev.target.value}),style:{...S.sel,fontSize:10,padding:"2px 6px",background:STATUS[t.status].bg,color:STATUS[t.status].color,fontWeight:700,border:"none"}},Object.entries(STATUS).map(([k,v])=>e("option",{key:k,value:k},v.label))))),
-    e(Comments,{comments:cmts,onAdd:c=>onUpdate(t.id,{comments:[...cmts,c]}),onDelete:cid=>onUpdate(t.id,{comments:cmts.filter(x=>x.id!==cid)})}));
-}
+function TC(p){var t=p.t;var ed=useState(false),isEd=ed[0],setEd=ed[1];var d=dep(t.dept);var dl=dueL(t.due);var imgs=t.im||[];var cms=t.cm||[];
+  return h("div",{style:{background:t.urg?"#FFF8F8":"#fff",border:"1px solid "+(t.urg?"#FFD0D0":"#E7E4EC"),borderRadius:12,padding:14,borderLeft:"3px solid "+d.c}},
+    h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6,alignItems:"center"}},
+      h("div",{style:{display:"flex",gap:4,alignItems:"center"}},
+        h("span",{style:{fontSize:9,fontWeight:700,color:d.c,background:d.c+"18",padding:"2px 6px",borderRadius:4}},d.i+" "+d.n),
+        t.urg&&h("span",{style:{fontSize:8,fontWeight:800,color:"#E23A57",background:"#FFE7EB",padding:"2px 5px",borderRadius:4}},"🔥")),
+      h("div",{style:{display:"flex",gap:3}},
+        h("button",{onClick:function(){p.onUpdate(t.id,{urg:!t.urg})},style:Object.assign({},ib,{opacity:t.urg?1:.3,fontSize:12})},"🔥"),
+        h("button",{onClick:function(){setEd(!isEd)},style:ib},"✏️"),
+        h("button",{onClick:function(){p.onDelete(t.id)},style:ib},"🗑️"))),
+    isEd?h(React.Fragment,null,
+      h("input",{value:t.title,onChange:function(e){p.onUpdate(t.id,{title:e.target.value})},style:inp}),
+      h("textarea",{value:t.note||"",onChange:function(e){p.onUpdate(t.id,{note:e.target.value})},style:Object.assign({},inp,{height:44,resize:"vertical",marginTop:4}),placeholder:"메모"}),
+      h("div",{style:{marginTop:6}},h("div",{style:{fontSize:10,color:"#6E6B78",fontWeight:700,marginBottom:3}},"담당자"),h(APick,{value:t.as,onChange:function(v){p.onUpdate(t.id,{as:v})}})),
+      h("div",{style:{display:"flex",gap:6,marginTop:6}},
+        h("select",{value:t.dept,onChange:function(e){p.onUpdate(t.id,{dept:e.target.value})},style:sel},DP.map(function(d){return h("option",{key:d.id,value:d.id},d.i+" "+d.n)})),
+        h("input",{type:"date",value:t.due||"",onChange:function(e){p.onUpdate(t.id,{due:e.target.value})},style:Object.assign({},sel,{fontSize:10})}))
+    ):h(React.Fragment,null,
+      h("div",{style:{fontSize:13,fontWeight:600,marginBottom:3,lineHeight:1.4}},t.title),
+      t.note&&h("div",{style:{fontSize:11,color:"#6E6B78",lineHeight:1.5}},t.note)),
+    h(Imgs,{images:imgs,onAdd:function(b){p.onUpdate(t.id,{im:imgs.concat(b)})},onRemove:function(i){p.onUpdate(t.id,{im:imgs.filter(function(_,j){return j!==i})})}}),
+    h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8,flexWrap:"wrap",gap:4}},
+      h("div",{style:{display:"flex",gap:3}},(t.as||[]).map(function(aid){var m=mem(aid);return m?h("span",{key:aid,style:{display:"inline-flex",alignItems:"center",gap:2,background:m.color+"14",borderRadius:6,padding:"2px 6px"}},h("span",{style:{fontSize:10}},m.emoji),h("span",{style:{fontSize:9,color:m.color,fontWeight:600}},m.name)):null})),
+      h("div",{style:{display:"flex",gap:6,alignItems:"center"}},
+        dl&&h("span",{style:{fontSize:9,fontWeight:600,color:dl.c}},dl.t),
+        h("select",{value:t.status,onChange:function(e){p.onUpdate(t.id,{status:e.target.value})},style:Object.assign({},sel,{fontSize:10,padding:"2px 6px",background:ST[t.status].bg,color:ST[t.status].c,fontWeight:700,border:"none"})},Object.keys(ST).map(function(k){return h("option",{key:k,value:k},ST[k].l)})))),
+    h(Cmts,{comments:cms,onAdd:function(c){p.onUpdate(t.id,{cm:cms.concat(c)})},onDelete:function(cid){p.onUpdate(t.id,{cm:cms.filter(function(x){return x.id!==cid})})}}))}
 
-// === IdeaCard ===
-function IdeaCard({idea,tags,bc,onUpdate,onDelete}){
-  const[ed,setEd]=useState(false);const tg=tags.find(x=>x.id===idea.tag)||{label:"?",color:"#999"};const nc=NCS.find(c=>c.id===idea.color)||NCS[0];const imgs=idea.images||[];const cmts=idea.comments||[];
-  return e("div",{style:{background:nc.bg,border:`1px solid ${nc.br}`,borderRadius:"4px 16px 16px 16px",padding:14,boxShadow:idea.starred?"0 0 0 2px #FFC53D":"none"}},
-    e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},e("span",{style:{fontSize:9,fontWeight:700,color:tg.color,background:tg.color+"18",padding:"2px 7px",borderRadius:4}},tg.label),e("div",{style:{display:"flex",gap:2}},e("button",{onClick:()=>onUpdate(idea.id,{starred:!idea.starred}),style:{...S.ib,fontSize:13}},idea.starred?"⭐":"☆"),e("button",{onClick:()=>setEd(!ed),style:S.ib},"✏️"),e("button",{onClick:()=>onDelete(idea.id),style:S.ib},"🗑️"))),
-    ed?e(React.Fragment,null,e("input",{value:idea.title,onChange:ev=>onUpdate(idea.id,{title:ev.target.value}),style:S.inp}),e("textarea",{value:idea.body||"",onChange:ev=>onUpdate(idea.id,{body:ev.target.value}),style:{...S.inp,height:60,resize:"vertical",marginTop:4}}),e("div",{style:{display:"flex",gap:6,marginTop:6,flexWrap:"wrap",alignItems:"center"}},e("select",{value:idea.tag,onChange:ev=>onUpdate(idea.id,{tag:ev.target.value}),style:S.sel},tags.map(t=>e("option",{key:t.id,value:t.id},t.label))),e("div",{style:{display:"flex",gap:3}},NCS.map(c=>e("button",{key:c.id,onClick:()=>onUpdate(idea.id,{color:c.id}),style:{width:16,height:16,borderRadius:"50%",background:c.bg,border:idea.color===c.id?`2px solid ${bc}`:`1px solid ${c.br}`,cursor:"pointer",padding:0}})))))
-    :e(React.Fragment,null,e("div",{style:{fontSize:13.5,fontWeight:700,marginBottom:4,lineHeight:1.4}},idea.title),idea.body&&e("div",{style:{fontSize:12,color:"#444",lineHeight:1.6,whiteSpace:"pre-wrap"}},idea.body)),
-    e(ImageAttach,{images:imgs,onAdd:b64=>onUpdate(idea.id,{images:[...imgs,b64]}),onRemove:i=>onUpdate(idea.id,{images:imgs.filter((_,j)=>j!==i)})}),
-    e(Comments,{comments:cmts,onAdd:c=>onUpdate(idea.id,{comments:[...cmts,c]}),onDelete:cid=>onUpdate(idea.id,{comments:cmts.filter(x=>x.id!==cid)})}));
-}
+function IC(p){var idea=p.idea,tags=p.tags,bc=p.bc;var ed=useState(false),isEd=ed[0],setEd=ed[1];var tg=tags.find(function(x){return x.id===idea.tg})||{l:"?",c:"#999"};var nc=NC.find(function(c){return c.id===idea.cl})||NC[0];var imgs=idea.im||[];var cms=idea.cm||[];
+  return h("div",{style:{background:nc.b,border:"1px solid "+nc.r,borderRadius:"4px 16px 16px 16px",padding:14,boxShadow:idea.st?"0 0 0 2px #FFC53D":"none"}},
+    h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},
+      h("span",{style:{fontSize:9,fontWeight:700,color:tg.c,background:tg.c+"18",padding:"2px 7px",borderRadius:4}},tg.l),
+      h("div",{style:{display:"flex",gap:2}},
+        h("button",{onClick:function(){p.onUpdate(idea.id,{st:!idea.st})},style:Object.assign({},ib,{fontSize:13})},idea.st?"⭐":"☆"),
+        h("button",{onClick:function(){setEd(!isEd)},style:ib},"✏️"),
+        h("button",{onClick:function(){p.onDelete(idea.id)},style:ib},"🗑️"))),
+    isEd?h(React.Fragment,null,
+      h("input",{value:idea.title,onChange:function(e){p.onUpdate(idea.id,{title:e.target.value})},style:inp}),
+      h("textarea",{value:idea.body||"",onChange:function(e){p.onUpdate(idea.id,{body:e.target.value})},style:Object.assign({},inp,{height:60,resize:"vertical",marginTop:4})}),
+      h("div",{style:{display:"flex",gap:6,marginTop:6,flexWrap:"wrap",alignItems:"center"}},
+        h("select",{value:idea.tg,onChange:function(e){p.onUpdate(idea.id,{tg:e.target.value})},style:sel},tags.map(function(t){return h("option",{key:t.id,value:t.id},t.l)})),
+        h("div",{style:{display:"flex",gap:3}},NC.map(function(c){return h("button",{key:c.id,onClick:function(){p.onUpdate(idea.id,{cl:c.id})},style:{width:16,height:16,borderRadius:"50%",background:c.b,border:idea.cl===c.id?"2px solid "+bc:"1px solid "+c.r,cursor:"pointer",padding:0}})})))
+    ):h(React.Fragment,null,
+      h("div",{style:{fontSize:13.5,fontWeight:700,marginBottom:4,lineHeight:1.4}},idea.title),
+      idea.body&&h("div",{style:{fontSize:12,color:"#444",lineHeight:1.6,whiteSpace:"pre-wrap"}},idea.body)),
+    h(Imgs,{images:imgs,onAdd:function(b){p.onUpdate(idea.id,{im:imgs.concat(b)})},onRemove:function(i){p.onUpdate(idea.id,{im:imgs.filter(function(_,j){return j!==i})})}}),
+    h(Cmts,{comments:cms,onAdd:function(c){p.onUpdate(idea.id,{cm:cms.concat(c)})},onDelete:function(cid){p.onUpdate(idea.id,{cm:cms.filter(function(x){return x.id!==cid})})}}))}
 
-// === MAIN APP ===
 function App(){
-  const[data,setData]=useState(loadData);
-  const[mode,setMode]=useState("tasks");
-  const[tv,setTv]=useState("kanban");const[td,setTd]=useState("all");const[ta,setTa]=useState("all");const[uo,setUo]=useState(false);
-  const[sat,setSat]=useState(false);const[nt,setNt]=useState({dept:"plan",title:"",assignees:["me"],note:"",urgent:false,due:""});
-  const[ib2,setIb]=useState("plan");const[it,setIt]=useState("all");const[so,setSo]=useState(false);
-  const[sai,setSai]=useState(false);const[ni,setNi]=useState({board:"plan",tag:"format",color:"yellow",title:"",body:"",starred:false});
-  // global search
-  const[sq,setSq]=useState("");const[sf,setSf]=useState(false);
+  var _d=useState(load),data=_d[0],setData=_d[1];
+  var _m=useState("tasks"),mode=_m[0],setMode=_m[1];
+  var _tv=useState("kanban"),tv=_tv[0],setTv=_tv[1];
+  var _td=useState("all"),tDept=_td[0],setTDept=_td[1];
+  var _ta=useState("all"),tAs=_ta[0],setTAs=_ta[1];
+  var _uo=useState(false),urgO=_uo[0],setUrgO=_uo[1];
+  var _sat=useState(false),showAT=_sat[0],setShowAT=_sat[1];
+  var _nt=useState({dept:"plan",title:"",as:["me"],note:"",urg:false,due:""}),nt=_nt[0],setNt=_nt[1];
+  var _ib=useState("plan"),iBoard=_ib[0],setIBoard=_ib[1];
+  var _it=useState("all"),iTag=_it[0],setITag=_it[1];
+  var _so=useState(false),starO=_so[0],setStarO=_so[1];
+  var _sai=useState(false),showAI=_sai[0],setShowAI=_sai[1];
+  var _ni=useState({bd:"plan",tg:"format",cl:"yellow",title:"",body:"",st:false}),ni=_ni[0],setNi=_ni[1];
+  var _sq=useState(""),sq=_sq[0],setSq=_sq[1];
+  var _sf=useState(false),sf=_sf[0],setSf=_sf[1];
 
-  const sv=d=>{setData(d);saveData(d);};
-  const up=(k,id,u)=>{const n={...data,[k]:data[k].map(x=>x.id===id?{...x,...u}:x)};sv(n);};
-  const dl=(k,id)=>{const n={...data,[k]:data[k].filter(x=>x.id!==id)};sv(n);};
-  const addT=()=>{if(!nt.title.trim())return;sv({...data,tasks:[...data.tasks,{...nt,id:"t"+Date.now(),status:"todo",comments:[],images:[]}]});setNt({dept:"plan",title:"",assignees:["me"],note:"",urgent:false,due:""});setSat(false);};
-  const addI=()=>{if(!ni.title.trim())return;sv({...data,ideas:[...data.ideas,{...ni,id:"i"+Date.now(),comments:[],images:[]}]});setNi({board:ib2,tag:ITAGS[ib2][0].id,color:"yellow",title:"",body:"",starred:false});setSai(false);};
-  const reset=()=>{if(confirm("초기화할까요? 모든 데이터가 삭제됩니다.")){sv({tasks:DT,ideas:DI});}};
+  function sv(d){setData(d);save(d)}
+  function up(k,id,u){var n=Object.assign({},data);n[k]=n[k].map(function(x){return x.id===id?Object.assign({},x,u):x});sv(n)}
+  function dl(k,id){var n=Object.assign({},data);n[k]=n[k].filter(function(x){return x.id!==id});sv(n)}
+  function addT(){if(!nt.title.trim())return;var n=Object.assign({},data);n.tasks=n.tasks.concat(Object.assign({},nt,{id:"t"+Date.now(),status:"todo",cm:[],im:[]}));sv(n);setNt({dept:"plan",title:"",as:["me"],note:"",urg:false,due:""});setShowAT(false)}
+  function addI(){if(!ni.title.trim())return;var tags=IT[iBoard];var n=Object.assign({},data);n.ideas=n.ideas.concat(Object.assign({},ni,{id:"i"+Date.now(),cm:[],im:[]}));sv(n);setNi({bd:iBoard,tg:tags[0].id,cl:"yellow",title:"",body:"",st:false});setShowAI(false)}
+  function reset(){if(confirm("초기화할까요? 모든 데이터가 삭제됩니다.")){sv({tasks:DT,ideas:DI})}}
 
-  // search results
-  const searchResults=sq.trim().length>=2?[
-    ...data.tasks.filter(t=>t.title.toLowerCase().includes(sq.toLowerCase())||(t.note||"").toLowerCase().includes(sq.toLowerCase())).map(t=>({...t,type:"task",deptInfo:dep(t.dept)})),
-    ...data.ideas.filter(i=>i.title.toLowerCase().includes(sq.toLowerCase())||(i.body||"").toLowerCase().includes(sq.toLowerCase())).map(i=>({...i,type:"idea"}))
-  ]:[];
+  // search
+  var sRes=sq.trim().length>=2?data.tasks.filter(function(t){return t.title.toLowerCase().indexOf(sq.toLowerCase())>=0||(t.note||"").toLowerCase().indexOf(sq.toLowerCase())>=0}).map(function(t){return Object.assign({},t,{_type:"task"})}).concat(data.ideas.filter(function(i){return i.title.toLowerCase().indexOf(sq.toLowerCase())>=0||(i.body||"").toLowerCase().indexOf(sq.toLowerCase())>=0}).map(function(i){return Object.assign({},i,{_type:"idea"})})):[];
 
-  let fT=data.tasks.filter(t=>(td==="all"||t.dept===td)&&(ta==="all"||(t.assignees||[]).includes(ta)));
-  if(uo)fT=fT.filter(t=>t.urgent);
-  const st={total:fT.length,done:fT.filter(t=>t.status==="done").length,doing:fT.filter(t=>t.status==="doing").length,todo:fT.filter(t=>t.status==="todo").length};
-  const tags=ITAGS[ib2];const bC=ib2==="plan"?"#FF4D6D":"#0EAFA0";
-  let fI=data.ideas.filter(i=>i.board===ib2);
-  if(it!=="all")fI=fI.filter(i=>i.tag===it);if(so)fI=fI.filter(i=>i.starred);
-  const tlM={};if(tv==="timeline"){fT.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).forEach(t=>{const m=t.due.slice(0,7);if(!tlM[m])tlM[m]=[];tlM[m].push(t);});}
+  // filter tasks
+  var fT=data.tasks.filter(function(t){return(tDept==="all"||t.dept===tDept)&&(tAs==="all"||(t.as||[]).indexOf(tAs)>=0)});
+  if(urgO)fT=fT.filter(function(t){return t.urg});
+  var st={total:fT.length,done:fT.filter(function(t){return t.status==="done"}).length,doing:fT.filter(function(t){return t.status==="doing"}).length,todo:fT.filter(function(t){return t.status==="todo"}).length};
 
-  return e("div",{style:{minHeight:"100vh",background:"#F6F4F7"}},
+  var tags=IT[iBoard];var bC=iBoard==="plan"?"#FF4D6D":"#0EAFA0";
+  var fI=data.ideas.filter(function(i){return i.bd===iBoard});
+  if(iTag!=="all")fI=fI.filter(function(i){return i.tg===iTag});
+  if(starO)fI=fI.filter(function(i){return i.st});
+
+  var tlM={};if(tv==="timeline"){fT.filter(function(t){return t.due}).sort(function(a,b){return a.due.localeCompare(b.due)}).forEach(function(t){var m=t.due.slice(0,7);if(!tlM[m])tlM[m]=[];tlM[m].push(t)})}
+
+  return h("div",{style:{minHeight:"100vh",background:"#F6F4F7"}},
     // HEADER
-    e("header",{style:{background:"#17151F",padding:"10px 20px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}},
-      e("div",{style:{display:"flex",alignItems:"center",gap:12}},
-        e("div",null,e("div",{style:{color:"#FF4D6D",fontSize:9,fontWeight:700,letterSpacing:2}},"ROTATION DATING CO."),e("div",{style:{color:"#fff",fontSize:15,fontWeight:800}},"운영 보드")),
-        e("div",{style:{display:"flex",background:"#2a2835",borderRadius:10,overflow:"hidden"}},
-          [{k:"tasks",l:"📋 업무",c:"#FF4D6D"},{k:"ideas",l:"💡 아이디어",c:"#FFC53D"}].map(t=>e("button",{key:t.k,onClick:()=>{setMode(t.k);setSq("");setSf(false);},style:{background:mode===t.k?t.c:"transparent",color:mode===t.k?(t.k==="ideas"?"#17151F":"#fff"):"#6E6B78",border:"none",padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},t.l)))),
-      e("div",{style:{display:"flex",gap:6,alignItems:"center"}},
-        // GLOBAL SEARCH
-        e("div",{className:"global-search",style:{width:200,position:"relative"}},
-          e("span",{className:"icon"},"🔍"),
-          e("input",{value:sq,onChange:ev=>{setSq(ev.target.value);setSf(true);},onFocus:()=>setSf(true),onBlur:()=>setTimeout(()=>setSf(false),200),placeholder:"전체 검색..."}),
-          sf&&searchResults.length>0&&e("div",{className:"search-results",style:{position:"absolute",top:"100%",left:0,right:0,zIndex:60}},
-            searchResults.slice(0,10).map(r=>e("div",{key:r.id,className:"sr-item",onClick:()=>{
-              if(r.type==="task"){setMode("tasks");setTd(r.dept);setSq("");setSf(false);}
-              else{setMode("ideas");setIb(r.board);setSq("");setSf(false);}
-            }},
-              e("div",null,
-                e("span",{className:"sr-badge",style:{background:r.type==="task"?(r.deptInfo?r.deptInfo.color:"#666")+"18",color:r.type==="task"?(r.deptInfo?r.deptInfo.color:"#666"):"#0EAFA0"}},r.type==="task"?"업무":"아이디어"),
-                e("div",{className:"sr-title"},r.title),
-                e("div",{className:"sr-note"},r.note||r.body||""))
-            )),
-            searchResults.length>10&&e("div",{style:{padding:8,textAlign:"center",fontSize:10,color:"#aaa"}},"+"+(searchResults.length-10)+"개 더...")
-          )),
-        MEMBERS.map(m=>e("div",{key:m.id,style:{background:"#2a2835",borderRadius:7,padding:"4px 9px",display:"flex",alignItems:"center",gap:4}},e("span",{style:{fontSize:11}},m.emoji),e("span",{style:{color:m.color,fontSize:10,fontWeight:700}},m.name))),
-        e("button",{onClick:reset,style:{background:"transparent",color:"#555",border:"1px solid #333",borderRadius:6,padding:"4px 7px",fontSize:9,cursor:"pointer"}},"초기화"))),
+    h("header",{style:{background:"#17151F",padding:"10px 20px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}},
+      h("div",{style:{display:"flex",alignItems:"center",gap:12}},
+        h("div",null,h("div",{style:{color:"#FF4D6D",fontSize:9,fontWeight:700,letterSpacing:2}},"ROTATION DATING CO."),h("div",{style:{color:"#fff",fontSize:15,fontWeight:800}},"운영 보드")),
+        h("div",{style:{display:"flex",background:"#2a2835",borderRadius:10,overflow:"hidden"}},
+          [{k:"tasks",la:"📋 업무",co:"#FF4D6D"},{k:"ideas",la:"💡 아이디어",co:"#FFC53D"}].map(function(x){return h("button",{key:x.k,onClick:function(){setMode(x.k);setSq("");setSf(false)},style:{background:mode===x.k?x.co:"transparent",color:mode===x.k?(x.k==="ideas"?"#17151F":"#fff"):"#6E6B78",border:"none",padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},x.la)}))),
+      h("div",{style:{display:"flex",gap:6,alignItems:"center"}},
+        h("div",{className:"gs",style:{width:200}},
+          h("span",{className:"ic"},"🔍"),
+          h("input",{value:sq,onChange:function(e){setSq(e.target.value);setSf(true)},onFocus:function(){setSf(true)},onBlur:function(){setTimeout(function(){setSf(false)},200)},placeholder:"전체 검색..."}),
+          sf&&sRes.length>0&&h("div",{className:"sr"},sRes.slice(0,8).map(function(r){var d=r._type==="task"?dep(r.dept):null;return h("div",{key:r.id,className:"sr-i",onClick:function(){if(r._type==="task"){setMode("tasks");setTDept(r.dept)}else{setMode("ideas");setIBoard(r.bd)}setSq("");setSf(false)}},h("span",{style:{fontSize:8,fontWeight:700,padding:"2px 5px",borderRadius:3,background:r._type==="task"?(d?d.c:"#666")+"18",color:r._type==="task"?(d?d.c:"#666"):"#0EAFA0",marginRight:6}},r._type==="task"?"업무":"아이디어"),h("span",{style:{fontSize:12,fontWeight:600}},r.title),r.note&&h("div",{style:{fontSize:10,color:"#6E6B78",marginTop:2}},r.note),r.body&&h("div",{style:{fontSize:10,color:"#6E6B78",marginTop:2}},r.body))}))),
+        MM.map(function(m){return h("div",{key:m.id,style:{background:"#2a2835",borderRadius:7,padding:"4px 9px",display:"flex",alignItems:"center",gap:4}},h("span",{style:{fontSize:11}},m.emoji),h("span",{style:{color:m.color,fontSize:10,fontWeight:700}},m.name))}),
+        h("button",{onClick:reset,style:{background:"transparent",color:"#555",border:"1px solid #333",borderRadius:6,padding:"4px 7px",fontSize:9,cursor:"pointer"}},"초기화"))),
 
     // TASKS
-    mode==="tasks"&&e(React.Fragment,null,
-      e("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}},
-        e("div",{style:{display:"flex",gap:12}},[{l:"전체",v:st.total,c:"#17151F"},{l:"할 일",v:st.todo,c:"#6E6B78"},{l:"진행 중",v:st.doing,c:"#E8A23D"},{l:"완료",v:st.done,c:"#0EAFA0"}].map(s=>e("div",{key:s.l,style:{textAlign:"center"}},e("div",{style:{fontSize:16,fontWeight:800,color:s.c}},s.v),e("div",{style:{fontSize:9,color:"#6E6B78"}},s.l)))),
-        e("div",{style:{flex:1}}),
-        e("div",{style:{display:"flex",background:"#F0EEF2",borderRadius:8,overflow:"hidden"}},[{k:"kanban",l:"칸반"},{k:"timeline",l:"타임라인"}].map(v=>e("button",{key:v.k,onClick:()=>setTv(v.k),style:{background:tv===v.k?"#17151F":"transparent",color:tv===v.k?"#fff":"#6E6B78",border:"none",padding:"5px 12px",fontSize:10,fontWeight:700,cursor:"pointer"}},v.l))),
-        e("button",{onClick:()=>setSat(true),style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 업무")),
-      e("div",{style:{padding:"8px 20px",display:"flex",gap:5,flexWrap:"wrap"}},
-        e(Chip,{on:td==="all",onClick:()=>setTd("all")},"전체"),DEPTS.map(d=>e(Chip,{key:d.id,on:td===d.id,color:d.color,onClick:()=>setTd(d.id)},d.icon+" "+d.name)),
-        e("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
-        e(Chip,{on:ta==="all",onClick:()=>setTa("all")},"모두"),MEMBERS.map(m=>e(Chip,{key:m.id,on:ta===m.id,color:m.color,onClick:()=>setTa(m.id)},m.emoji+" "+m.name)),
-        e("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
-        e(Chip,{on:uo,color:uo?"#E23A57":null,onClick:()=>setUo(!uo)},"🔥 긴급만")),
-      tv==="kanban"&&e("div",{style:{padding:"0 20px 40px",display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,alignItems:"flex-start"}},Object.entries(STATUS).map(([key,s])=>{const col=fT.filter(t=>t.status===key).sort((a,b)=>(b.urgent?1:0)-(a.urgent?1:0)||(a.due||"z").localeCompare(b.due||"z"));return e("div",{key},e("div",{style:{display:"flex",alignItems:"center",gap:5,marginBottom:8,padding:"0 4px"}},e("div",{style:{width:7,height:7,borderRadius:"50%",background:s.color}}),e("span",{style:{fontSize:12,fontWeight:700,color:s.color}},s.label),e("span",{style:{fontSize:10,color:"#aaa"}},"("+col.length+")")),e("div",{style:{display:"flex",flexDirection:"column",gap:8}},col.map(t=>e(TaskCard,{key:t.id,t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})),col.length===0&&e("div",{style:{textAlign:"center",padding:16,color:"#ccc",fontSize:11}},"—")));})),
-      tv==="timeline"&&e("div",{style:{padding:"10px 20px 40px",maxWidth:800,margin:"0 auto"}},Object.keys(tlM).length===0&&e("div",{style:{textAlign:"center",padding:40,color:"#ccc",fontSize:12}},"마감일이 설정된 업무가 없습니다"),Object.entries(tlM).map(([m,tasks])=>e("div",{key:m,style:{marginBottom:24}},e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},e("div",{style:{background:"#17151F",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},m.split("-")[1]+"월"),e("div",{style:{flex:1,height:1,background:"#E7E4EC"}}),e("span",{style:{fontSize:10,color:"#6E6B78"}},tasks.length+"건")),e("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px solid #E7E4EC"}},tasks.map(t=>e("div",{key:t.id,style:{marginLeft:12}},e(TaskCard,{t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})))))),fT.filter(t=>!t.due&&t.status!=="done").length>0&&e("div",{style:{marginBottom:24}},e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},e("div",{style:{background:"#6E6B78",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},"미정"),e("div",{style:{flex:1,height:1,background:"#E7E4EC"}})),e("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px dashed #E7E4EC"}},fT.filter(t=>!t.due&&t.status!=="done").map(t=>e("div",{key:t.id,style:{marginLeft:12}},e(TaskCard,{t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})))))),
-      sat&&e(Modal,{onClose:()=>setSat(false),title:"업무 추가"},e(Lbl,null,"부서"),e("select",{value:nt.dept,onChange:ev=>setNt({...nt,dept:ev.target.value}),style:S.inp},DEPTS.map(d=>e("option",{key:d.id,value:d.id},d.icon+" "+d.name))),e(Lbl,null,"업무 제목"),e("input",{value:nt.title,onChange:ev=>setNt({...nt,title:ev.target.value}),style:S.inp,placeholder:"업무 내용",autoFocus:true}),e(Lbl,null,"담당자 (복수 선택)"),e(APicker,{value:nt.assignees,onChange:v=>setNt({...nt,assignees:v}),sz:"md"}),e(Lbl,null,"마감일"),e("input",{type:"date",value:nt.due,onChange:ev=>setNt({...nt,due:ev.target.value}),style:S.inp}),e(Lbl,null,"메모"),e("textarea",{value:nt.note,onChange:ev=>setNt({...nt,note:ev.target.value}),style:{...S.inp,height:50},placeholder:"참고 사항"}),e("div",{style:{marginTop:8}},e(Chip,{on:nt.urgent,color:nt.urgent?"#E23A57":null,onClick:()=>setNt({...nt,urgent:!nt.urgent})},"🔥 "+(nt.urgent?"긴급 표시됨":"긴급 표시"))),e("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},e("button",{onClick:()=>setSat(false),style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),e("button",{onClick:addT,style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가")))),
+    mode==="tasks"&&h(React.Fragment,null,
+      h("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}},
+        h("div",{style:{display:"flex",gap:12}},[{la:"전체",v:st.total,co:"#17151F"},{la:"할 일",v:st.todo,co:"#6E6B78"},{la:"진행 중",v:st.doing,co:"#E8A23D"},{la:"완료",v:st.done,co:"#0EAFA0"}].map(function(s){return h("div",{key:s.la,style:{textAlign:"center"}},h("div",{style:{fontSize:16,fontWeight:800,color:s.co}},s.v),h("div",{style:{fontSize:9,color:"#6E6B78"}},s.la))})),
+        h("div",{style:{flex:1}}),
+        h("div",{style:{display:"flex",background:"#F0EEF2",borderRadius:8,overflow:"hidden"}},[{k:"kanban",la:"칸반"},{k:"timeline",la:"타임라인"}].map(function(v){return h("button",{key:v.k,onClick:function(){setTv(v.k)},style:{background:tv===v.k?"#17151F":"transparent",color:tv===v.k?"#fff":"#6E6B78",border:"none",padding:"5px 12px",fontSize:10,fontWeight:700,cursor:"pointer"}},v.la)})),
+        h("button",{onClick:function(){setShowAT(true)},style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 업무")),
+      h("div",{style:{padding:"8px 20px",display:"flex",gap:5,flexWrap:"wrap"}},
+        h(Chip,{on:tDept==="all",onClick:function(){setTDept("all")}},"전체"),
+        DP.map(function(d){return h(Chip,{key:d.id,on:tDept===d.id,color:d.c,onClick:function(){setTDept(d.id)}},d.i+" "+d.n)}),
+        h("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
+        h(Chip,{on:tAs==="all",onClick:function(){setTAs("all")}},"모두"),
+        MM.map(function(m){return h(Chip,{key:m.id,on:tAs===m.id,color:m.color,onClick:function(){setTAs(m.id)}},m.emoji+" "+m.name)}),
+        h("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
+        h(Chip,{on:urgO,color:urgO?"#E23A57":null,onClick:function(){setUrgO(!urgO)}},"🔥 긴급만")),
+
+      tv==="kanban"&&h("div",{style:{padding:"0 20px 40px",display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,alignItems:"flex-start"}},
+        Object.keys(ST).map(function(key){var s=ST[key];var col=fT.filter(function(t){return t.status===key}).sort(function(a,b){return(b.urg?1:0)-(a.urg?1:0)||(a.due||"z").localeCompare(b.due||"z")});
+          return h("div",{key:key},
+            h("div",{style:{display:"flex",alignItems:"center",gap:5,marginBottom:8,padding:"0 4px"}},h("div",{style:{width:7,height:7,borderRadius:"50%",background:s.c}}),h("span",{style:{fontSize:12,fontWeight:700,color:s.c}},s.l),h("span",{style:{fontSize:10,color:"#aaa"}},"("+col.length+")")),
+            h("div",{style:{display:"flex",flexDirection:"column",gap:8}},
+              col.map(function(t){return h(TC,{key:t.id,t:t,onUpdate:function(id,u){up("tasks",id,u)},onDelete:function(id){dl("tasks",id)}})}),
+              col.length===0&&h("div",{style:{textAlign:"center",padding:16,color:"#ccc",fontSize:11}},"—")))})),
+
+      tv==="timeline"&&h("div",{style:{padding:"10px 20px 40px",maxWidth:800,margin:"0 auto"}},
+        Object.keys(tlM).length===0&&h("div",{style:{textAlign:"center",padding:40,color:"#ccc",fontSize:12}},"마감일 설정된 업무 없음"),
+        Object.keys(tlM).map(function(m){var tasks=tlM[m];return h("div",{key:m,style:{marginBottom:24}},
+          h("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},h("div",{style:{background:"#17151F",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},m.split("-")[1]+"월"),h("div",{style:{flex:1,height:1,background:"#E7E4EC"}}),h("span",{style:{fontSize:10,color:"#6E6B78"}},tasks.length+"건")),
+          h("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px solid #E7E4EC"}},tasks.map(function(t){return h("div",{key:t.id,style:{marginLeft:12}},h(TC,{t:t,onUpdate:function(id,u){up("tasks",id,u)},onDelete:function(id){dl("tasks",id)}}))})))}),
+        fT.filter(function(t){return!t.due&&t.status!=="done"}).length>0&&h("div",{style:{marginBottom:24}},
+          h("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},h("div",{style:{background:"#6E6B78",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},"미정"),h("div",{style:{flex:1,height:1,background:"#E7E4EC"}})),
+          h("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px dashed #E7E4EC"}},fT.filter(function(t){return!t.due&&t.status!=="done"}).map(function(t){return h("div",{key:t.id,style:{marginLeft:12}},h(TC,{t:t,onUpdate:function(id,u){up("tasks",id,u)},onDelete:function(id){dl("tasks",id)}}))})))),
+
+      showAT&&h(Modal,{onClose:function(){setShowAT(false)},title:"업무 추가"},
+        h(Lbl,null,"부서"),h("select",{value:nt.dept,onChange:function(e){setNt(Object.assign({},nt,{dept:e.target.value}))},style:inp},DP.map(function(d){return h("option",{key:d.id,value:d.id},d.i+" "+d.n)})),
+        h(Lbl,null,"업무 제목"),h("input",{value:nt.title,onChange:function(e){setNt(Object.assign({},nt,{title:e.target.value}))},style:inp,placeholder:"업무 내용",autoFocus:true}),
+        h(Lbl,null,"담당자 (복수 선택)"),h(APick,{value:nt.as,onChange:function(v){setNt(Object.assign({},nt,{as:v}))},sz:"md"}),
+        h(Lbl,null,"마감일"),h("input",{type:"date",value:nt.due,onChange:function(e){setNt(Object.assign({},nt,{due:e.target.value}))},style:inp}),
+        h(Lbl,null,"메모"),h("textarea",{value:nt.note,onChange:function(e){setNt(Object.assign({},nt,{note:e.target.value}))},style:Object.assign({},inp,{height:50}),placeholder:"참고 사항"}),
+        h("div",{style:{marginTop:8}},h(Chip,{on:nt.urg,color:nt.urg?"#E23A57":null,onClick:function(){setNt(Object.assign({},nt,{urg:!nt.urg}))}},"🔥 "+(nt.urg?"긴급 표시됨":"긴급 표시"))),
+        h("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},
+          h("button",{onClick:function(){setShowAT(false)},style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),
+          h("button",{onClick:addT,style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가")))),
 
     // IDEAS
-    mode==="ideas"&&e(React.Fragment,null,
-      e("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}},
-        [{id:"plan",n:"기획",em:"🎯",c:"#FF4D6D"},{id:"mkt",n:"마케팅",em:"📢",c:"#0EAFA0"}].map(b=>e(Chip,{key:b.id,on:ib2===b.id,color:b.c,onClick:()=>{setIb(b.id);setIt("all");}},b.em+" "+b.n)),
-        e("span",{style:{width:1,height:18,background:"#E7E4EC"}}),
-        e("div",{style:{display:"flex",gap:4,flexWrap:"wrap"}},e(Chip,{on:it==="all",color:bC,onClick:()=>setIt("all")},"전체"),tags.map(t=>e(Chip,{key:t.id,on:it===t.id,color:t.color,onClick:()=>setIt(t.id)},t.label))),
-        e(Chip,{on:so,color:so?"#FFC53D":null,onClick:()=>setSo(!so)},"⭐"),
-        e("div",{style:{flex:1}}),e("span",{style:{fontSize:11,color:"#6E6B78",fontWeight:600}},fI.length+"개"),
-        e("button",{onClick:()=>{setNi({board:ib2,tag:tags[0].id,color:"yellow",title:"",body:"",starred:false});setSai(true);},style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"7px 12px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 아이디어")),
-      e("div",{style:{padding:20,display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:12,alignItems:"start"}},fI.map(idea=>e(IdeaCard,{key:idea.id,idea,tags,bc:bC,onUpdate:(id,u)=>up("ideas",id,u),onDelete:id=>dl("ideas",id)})),fI.length===0&&e("div",{style:{gridColumn:"1/-1",textAlign:"center",padding:50,color:"#ccc"}},e("div",{style:{fontSize:28,marginBottom:6}},"💭"),e("div",{style:{fontSize:12}},"아이디어를 추가해보세요"))),
-      sai&&e(Modal,{onClose:()=>setSai(false),title:"💡 새 아이디어"},e(Lbl,null,"카테고리"),e("select",{value:ni.tag,onChange:ev=>setNi({...ni,tag:ev.target.value}),style:S.inp},tags.map(t=>e("option",{key:t.id,value:t.id},t.label))),e(Lbl,null,"제목"),e("input",{value:ni.title,onChange:ev=>setNi({...ni,title:ev.target.value}),style:S.inp,placeholder:"한 줄 요약",autoFocus:true}),e(Lbl,null,"내용"),e("textarea",{value:ni.body,onChange:ev=>setNi({...ni,body:ev.target.value}),style:{...S.inp,height:68},placeholder:"상세 설명"}),e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}},e("div",{style:{display:"flex",gap:3}},NCS.map(c=>e("button",{key:c.id,onClick:()=>setNi({...ni,color:c.id}),style:{width:20,height:20,borderRadius:"50%",background:c.bg,border:ni.color===c.id?`2px solid ${bC}`:`1px solid ${c.br}`,cursor:"pointer",padding:0}}))),e(Chip,{on:ni.starred,color:ni.starred?"#FFC53D":null,onClick:()=>setNi({...ni,starred:!ni.starred})},ni.starred?"⭐ 핵심":"☆ 핵심")),e("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},e("button",{onClick:()=>setSai(false),style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),e("button",{onClick:addI,style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가"))))
+    mode==="ideas"&&h(React.Fragment,null,
+      h("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}},
+        [{id:"plan",n:"기획",em:"🎯",co:"#FF4D6D"},{id:"mkt",n:"마케팅",em:"📢",co:"#0EAFA0"}].map(function(b){return h(Chip,{key:b.id,on:iBoard===b.id,color:b.co,onClick:function(){setIBoard(b.id);setITag("all")}},b.em+" "+b.n)}),
+        h("span",{style:{width:1,height:18,background:"#E7E4EC"}}),
+        h("div",{style:{display:"flex",gap:4,flexWrap:"wrap"}},
+          h(Chip,{on:iTag==="all",color:bC,onClick:function(){setITag("all")}},"전체"),
+          tags.map(function(t){return h(Chip,{key:t.id,on:iTag===t.id,color:t.c,onClick:function(){setITag(t.id)}},t.l)})),
+        h(Chip,{on:starO,color:starO?"#FFC53D":null,onClick:function(){setStarO(!starO)}},"⭐"),
+        h("div",{style:{flex:1}}),
+        h("span",{style:{fontSize:11,color:"#6E6B78",fontWeight:600}},fI.length+"개"),
+        h("button",{onClick:function(){setNi({bd:iBoard,tg:tags[0].id,cl:"yellow",title:"",body:"",st:false});setShowAI(true)},style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"7px 12px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 아이디어")),
+      h("div",{style:{padding:20,display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:12,alignItems:"start"}},
+        fI.map(function(idea){return h(IC,{key:idea.id,idea:idea,tags:tags,bc:bC,onUpdate:function(id,u){up("ideas",id,u)},onDelete:function(id){dl("ideas",id)}})}),
+        fI.length===0&&h("div",{style:{gridColumn:"1/-1",textAlign:"center",padding:50,color:"#ccc"}},h("div",{style:{fontSize:28,marginBottom:6}},"💭"),h("div",{style:{fontSize:12}},"아이디어를 추가해보세요"))),
+      showAI&&h(Modal,{onClose:function(){setShowAI(false)},title:"💡 새 아이디어"},
+        h(Lbl,null,"카테고리"),h("select",{value:ni.tg,onChange:function(e){setNi(Object.assign({},ni,{tg:e.target.value}))},style:inp},tags.map(function(t){return h("option",{key:t.id,value:t.id},t.l)})),
+        h(Lbl,null,"제목"),h("input",{value:ni.title,onChange:function(e){setNi(Object.assign({},ni,{title:e.target.value}))},style:inp,placeholder:"한 줄 요약",autoFocus:true}),
+        h(Lbl,null,"내용"),h("textarea",{value:ni.body,onChange:function(e){setNi(Object.assign({},ni,{body:e.target.value}))},style:Object.assign({},inp,{height:68}),placeholder:"상세 설명"}),
+        h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}},
+          h("div",{style:{display:"flex",gap:3}},NC.map(function(c){return h("button",{key:c.id,onClick:function(){setNi(Object.assign({},ni,{cl:c.id}))},style:{width:20,height:20,borderRadius:"50%",background:c.b,border:ni.cl===c.id?"2px solid "+bC:"1px solid "+c.r,cursor:"pointer",padding:0}})})),
+          h(Chip,{on:ni.st,color:ni.st?"#FFC53D":null,onClick:function(){setNi(Object.assign({},ni,{st:!ni.st}))}},ni.st?"⭐ 핵심":"☆ 핵심")),
+        h("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},
+          h("button",{onClick:function(){setShowAI(false)},style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),
+          h("button",{onClick:addI,style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가"))))
   );
 }
-ReactDOM.render(e(App),document.getElementById("root"));
+ReactDOM.render(h(App),document.getElementById("root"));
 </script>
 </body>
 </html>
