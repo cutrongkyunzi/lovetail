@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>로테이션 소개팅 — 운영 보드</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:#F6F4F7;color:#17151F;-webkit-font-smoothing:antialiased}
+::selection{background:#FF4D6D;color:#fff}
+button{font-family:inherit}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const e=React.createElement,{useState,useEffect,useCallback}=React;
+
+const MEMBERS=[{id:"me",name:"나",role:"기획",color:"#FF4D6D",emoji:"🎯"},{id:"somin",name:"소민",role:"마케팅",color:"#0EAFA0",emoji:"📢"}];
+const STATUS={todo:{label:"할 일",color:"#6E6B78",bg:"#F0EEF2"},doing:{label:"진행 중",color:"#E8A23D",bg:"#FFF3D6"},done:{label:"완료",color:"#0EAFA0",bg:"#DFF6F3"}};
+const DEPTS=[{id:"plan",name:"기획",icon:"🎯",color:"#FF4D6D"},{id:"mkt",name:"마케팅",icon:"📢",color:"#0EAFA0"},{id:"ops",name:"운영",icon:"⚙️",color:"#7F77DD"},{id:"legal",name:"법무/행정",icon:"📋",color:"#E8A23D"},{id:"finance",name:"재무",icon:"💰",color:"#3BB273"},{id:"content",name:"콘텐츠",icon:"🎨",color:"#E0507A"}];
+const ITAGS={
+  plan:[{id:"format",label:"포맷/구조",color:"#FF4D6D"},{id:"theme",label:"테마",color:"#E0507A"},{id:"space",label:"공간/장소",color:"#7F77DD"},{id:"diff",label:"차별화",color:"#E8A23D"},{id:"ux",label:"참가자 경험",color:"#3BB273"},{id:"ref",label:"레퍼런스",color:"#6E6B78"}],
+  mkt:[{id:"sns",label:"SNS",color:"#0EAFA0"},{id:"copy",label:"카피/메시지",color:"#E0507A"},{id:"collab",label:"협업/제휴",color:"#7F77DD"},{id:"event",label:"이벤트",color:"#E8A23D"},{id:"brand",label:"브랜딩",color:"#FF4D6D"},{id:"viral",label:"바이럴",color:"#3BB273"}]
+};
+const NCS=[{id:"yellow",bg:"#FFF9DB",br:"#F0E68C"},{id:"pink",bg:"#FFE7EB",br:"#FFC7D1"},{id:"mint",bg:"#DFF6F3",br:"#BEE9E3"},{id:"purple",bg:"#EEEDFE",br:"#D4D2F0"},{id:"blue",bg:"#E3EFFD",br:"#B8D4F0"},{id:"white",bg:"#FFF",br:"#E7E4EC"}];
+
+const DT=[
+  {id:"p1",dept:"plan",title:"타겟 지역·상권 확정",assignees:["me"],status:"todo",note:"강남 vs 잠실·구로·영등포·성수",urgent:true,due:"2026-07-31"},
+  {id:"p2",dept:"plan",title:"차별화 포맷 확정",assignees:["me"],status:"todo",note:"평가 완화, 결과 통보 방식",urgent:true,due:"2026-07-31"},
+  {id:"p3",dept:"plan",title:"타겟 고객층 정의",assignees:["me"],status:"todo",note:"효율추구형 vs 회복·치유형",urgent:false,due:"2026-07-31"},
+  {id:"p4",dept:"plan",title:"참가비·인원 구조 확정",assignees:["me"],status:"done",note:"남녀 5만원 통일, 8:8",urgent:false,due:""},
+  {id:"p5",dept:"plan",title:"경쟁사 벤치마킹",assignees:["me"],status:"done",note:"감정적인 오렌지들, 연인어때 등",urgent:false,due:""},
+  {id:"p6",dept:"plan",title:"진행 매뉴얼 작성",assignees:["me","somin"],status:"todo",note:"아이스브레이커, 질문카드",urgent:false,due:"2026-09-15"},
+  {id:"p7",dept:"plan",title:"프로필 검증 프로세스",assignees:["me"],status:"todo",note:"직업 인증, 신분 확인",urgent:false,due:"2026-09-15"},
+  {id:"m1",dept:"mkt",title:"인스타그램 채널 개설",assignees:["somin"],status:"todo",note:"브랜드 계정 + 콘텐츠 플랜",urgent:false,due:"2026-09-01"},
+  {id:"m2",dept:"mkt",title:"카카오 채널 개설",assignees:["somin"],status:"todo",note:"신청·문의 접수",urgent:false,due:"2026-09-01"},
+  {id:"m3",dept:"mkt",title:"키워드 SEO",assignees:["somin"],status:"todo",note:"'로테이션소개팅' 집중",urgent:false,due:"2026-09-15"},
+  {id:"m4",dept:"mkt",title:"웨이팅리스트 모집",assignees:["somin"],status:"todo",note:"런칭 전 사전 수요 확보",urgent:true,due:"2026-09-30"},
+  {id:"m5",dept:"mkt",title:"얼리버드 프로모션",assignees:["somin","me"],status:"todo",note:"파일럿 참가자 모집",urgent:false,due:"2026-09-20"},
+  {id:"m6",dept:"mkt",title:"후기 콘텐츠 전략",assignees:["somin"],status:"todo",note:"후기 수 ≈ 신뢰도",urgent:false,due:"2026-09-30"},
+  {id:"o1",dept:"ops",title:"공간 후보 리스트업",assignees:["me","somin"],status:"todo",note:"카페/파티룸 2-3곳",urgent:false,due:"2026-08-31"},
+  {id:"o2",dept:"ops",title:"공간 대관 계약",assignees:["me"],status:"todo",note:"시간대·요금·수용인원",urgent:false,due:"2026-09-15"},
+  {id:"o3",dept:"ops",title:"다과/물품 준비",assignees:["somin"],status:"todo",note:"음료, 네임택, 카드",urgent:false,due:"2026-09-20"},
+  {id:"o4",dept:"ops",title:"파일럿 테스트",assignees:["me","somin"],status:"todo",note:"9월 말~10월 초 베타",urgent:true,due:"2026-10-05"},
+  {id:"o5",dept:"ops",title:"신청·결제 시스템",assignees:["somin"],status:"todo",note:"폼 + 토스",urgent:false,due:"2026-09-15"},
+  {id:"l1",dept:"legal",title:"사업자등록",assignees:["me"],status:"todo",note:"업종코드 확인",urgent:true,due:"2026-08-10"},
+  {id:"l2",dept:"legal",title:"결혼중개업 서면 문의",assignees:["me"],status:"todo",note:"관할 구청 — critical path",urgent:true,due:"2026-08-10"},
+  {id:"l3",dept:"legal",title:"통신판매업 신고",assignees:["me"],status:"todo",note:"등록면허세 약 4만원",urgent:false,due:"2026-08-15"},
+  {id:"l4",dept:"legal",title:"개인정보 처리방침",assignees:["me"],status:"todo",note:"수집·활용 동의서",urgent:false,due:"2026-09-15"},
+  {id:"f1",dept:"finance",title:"사업용 통장 개설",assignees:["me"],status:"todo",note:"",urgent:false,due:"2026-08-15"},
+  {id:"f2",dept:"finance",title:"창업 지원금 검토",assignees:["me"],status:"done",note:"세액감면 우선",urgent:false,due:""},
+  {id:"f3",dept:"finance",title:"세액감면 업종코드 확인",assignees:["me"],status:"todo",note:"홈택스 확인",urgent:false,due:"2026-08-10"},
+  {id:"c1",dept:"content",title:"브랜드명 확정",assignees:["somin","me"],status:"todo",note:"",urgent:true,due:"2026-08-20"},
+  {id:"c2",dept:"content",title:"로고 디자인",assignees:["somin"],status:"todo",note:"자체 제작",urgent:false,due:"2026-09-10"},
+  {id:"c3",dept:"content",title:"톤앤매너 가이드",assignees:["somin"],status:"todo",note:"컬러, 폰트, 말투",urgent:false,due:"2026-09-10"},
+  {id:"c4",dept:"content",title:"인스타 콘텐츠 10개",assignees:["somin"],status:"todo",note:"한 달치 축적",urgent:false,due:"2026-09-30"},
+  {id:"c5",dept:"content",title:"질문카드·프로필카드",assignees:["somin","me"],status:"todo",note:"현장 인쇄물",urgent:false,due:"2026-09-20"},
+];
+
+const DI=[
+  {id:"s1",board:"plan",tag:"diff",color:"yellow",title:"프로필 카드 후공개",body:"대화 초반엔 프로필 안 보여주고 질문 카드로 먼저 대화",starred:true},
+  {id:"s2",board:"plan",tag:"diff",color:"pink",title:"거절 공포 제거 설계",body:"개인 DM으로 결과 통보",starred:true},
+  {id:"s3",board:"plan",tag:"diff",color:"mint",title:"관계 지속 설계",body:"매칭 후 다음 만남 가이드 제공",starred:false},
+  {id:"s4",board:"plan",tag:"format",color:"yellow",title:"2트랙 분리",body:"가볍게 만나기 vs 적극적 인연 찾기",starred:false},
+  {id:"s5",board:"plan",tag:"theme",color:"purple",title:"연말 테마",body:"크리스마스, 버킷리스트, 새해 첫 만남",starred:false},
+  {id:"s6",board:"plan",tag:"ux",color:"blue",title:"질문카드 시스템",body:"가벼운 것부터 점점 깊게",starred:false},
+  {id:"s7",board:"plan",tag:"space",color:"white",title:"성수동 카페 후보",body:"팝업·전시 문화 강한 지역",starred:false},
+  {id:"s8",board:"plan",tag:"ref",color:"yellow",title:"비긴어게인 벤치마킹",body:"누적 1,650회, 28쌍 결혼",starred:false},
+  {id:"s9",board:"mkt",tag:"sns",color:"mint",title:"인스타 콘텐츠 방향",body:"현장 스냅 + 후기 카드뉴스",starred:true},
+  {id:"s10",board:"mkt",tag:"copy",color:"pink",title:"핵심 카피 후보",body:"\"조건 말고, 대화로 먼저\"",starred:true},
+  {id:"s11",board:"mkt",tag:"viral",color:"yellow",title:"후기 바이럴",body:"후기 작성 시 5천원 할인",starred:false},
+  {id:"s12",board:"mkt",tag:"event",color:"purple",title:"얼리버드",body:"파일럿 무료/반값",starred:false},
+  {id:"s13",board:"mkt",tag:"collab",color:"blue",title:"카페 제휴",body:"유휴 시간대 대관 + 단골 전환",starred:false},
+  {id:"s14",board:"mkt",tag:"brand",color:"white",title:"브랜드 톤",body:"따뜻하고 자연스러운 진정성",starred:true},
+  {id:"s15",board:"mkt",tag:"sns",color:"yellow",title:"검색 패턴 활용",body:"수~목 공지가 최적",starred:false},
+];
+
+const SK="rotation-board-v2";
+const mem=id=>MEMBERS.find(m=>m.id===id);
+const dep=id=>DEPTS.find(d=>d.id===id);
+const todayS=new Date().toISOString().slice(0,10);
+function dueL(due){if(!due)return null;const d=Math.ceil((new Date(due)-new Date(todayS))/864e5);if(d<0)return{t:`${-d}일 지남`,c:"#C00000"};if(d===0)return{t:"오늘",c:"#E23A57"};if(d<=7)return{t:`${d}일 남음`,c:"#E8A23D"};return{t:due.slice(5).replace("-","/"),c:"#6E6B78"};}
+function loadData(){try{const s=localStorage.getItem(SK);if(s)return JSON.parse(s);}catch{}return{tasks:DT,ideas:DI};}
+function saveData(d){try{localStorage.setItem(SK,JSON.stringify(d));}catch{}}
+
+// Styles
+const S={
+  chip:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:999,padding:"4px 10px",fontSize:10,fontWeight:600,color:"#6E6B78",cursor:"pointer"},
+  chipOn:{background:"#17151F",color:"#fff",borderColor:"#17151F"},
+  ib:{background:"none",border:"none",fontSize:11,cursor:"pointer",padding:2,opacity:.4},
+  inp:{width:"100%",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 10px",fontSize:13,outline:"none",fontFamily:"inherit",boxSizing:"border-box"},
+  sel:{border:"1px solid #E7E4EC",borderRadius:6,padding:"4px 8px",fontSize:11,outline:"none",fontFamily:"inherit",cursor:"pointer"},
+};
+
+function Chip({on,color,children,...p}){return e("button",{style:{...S.chip,...(on?(color?{background:color,color:"#fff",borderColor:color}:S.chipOn):{})},className:"chip",...p},children);}
+function Lbl({children}){return e("div",{style:{fontSize:11,fontWeight:700,color:"#6E6B78",marginBottom:3,marginTop:8}},children);}
+
+function APicker({value=[],onChange,sz}){
+  const toggle=id=>{const n=value.includes(id)?value.filter(v=>v!==id):[...value,id];if(n.length)onChange(n);};
+  return e("div",{style:{display:"flex",gap:4}},MEMBERS.map(m=>{
+    const on=value.includes(m.id);
+    return e("button",{key:m.id,onClick:()=>toggle(m.id),style:{display:"flex",alignItems:"center",gap:4,background:on?m.color+"18":"transparent",border:on?`1.5px solid ${m.color}`:"1.5px solid #E7E4EC",borderRadius:8,padding:sz==="md"?"5px 10px":"3px 8px",fontSize:sz==="md"?12:10,fontWeight:600,color:on?m.color:"#aaa",cursor:"pointer"}},m.emoji+" "+m.name);
+  }));
+}
+
+function Modal({onClose,title,children}){
+  return e("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100},onClick:onClose},
+    e("div",{style:{background:"#fff",borderRadius:16,padding:22,width:400,maxWidth:"92vw",maxHeight:"90vh",overflow:"auto"},onClick:ev=>ev.stopPropagation()},
+      e("div",{style:{fontSize:16,fontWeight:800,marginBottom:14}},title),children));
+}
+
+function TaskCard({t,onUpdate,onDelete}){
+  const[ed,setEd]=useState(false);const d=dep(t.dept);const dl=dueL(t.due);
+  const card=e("div",{style:{background:t.urgent?"#FFF8F8":"#fff",border:`1px solid ${t.urgent?"#FFD0D0":"#E7E4EC"}`,borderRadius:12,padding:14,borderLeft:`3px solid ${d.color}`}},
+    e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6,alignItems:"center"}},
+      e("div",{style:{display:"flex",gap:4,alignItems:"center"}},
+        e("span",{style:{fontSize:9,fontWeight:700,color:d.color,background:d.color+"18",padding:"2px 6px",borderRadius:4}},d.icon+" "+d.name),
+        t.urgent&&e("span",{style:{fontSize:8,fontWeight:800,color:"#E23A57",background:"#FFE7EB",padding:"2px 5px",borderRadius:4}},"🔥 긴급")),
+      e("div",{style:{display:"flex",gap:3}},
+        e("button",{onClick:()=>onUpdate(t.id,{urgent:!t.urgent}),style:{...S.ib,opacity:t.urgent?1:.3,fontSize:12},title:"긴급"},"🔥"),
+        e("button",{onClick:()=>setEd(!ed),style:S.ib},"✏️"),
+        e("button",{onClick:()=>onDelete(t.id),style:S.ib},"🗑️"))),
+    ed?e(React.Fragment,null,
+      e("input",{value:t.title,onChange:ev=>onUpdate(t.id,{title:ev.target.value}),style:S.inp}),
+      e("textarea",{value:t.note||"",onChange:ev=>onUpdate(t.id,{note:ev.target.value}),style:{...S.inp,height:44,resize:"vertical",marginTop:4},placeholder:"메모"}),
+      e("div",{style:{marginTop:6}},e("div",{style:{fontSize:10,color:"#6E6B78",fontWeight:700,marginBottom:3}},"담당자"),e(APicker,{value:t.assignees,onChange:v=>onUpdate(t.id,{assignees:v})})),
+      e("div",{style:{display:"flex",gap:6,marginTop:6}},
+        e("select",{value:t.dept,onChange:ev=>onUpdate(t.id,{dept:ev.target.value}),style:S.sel},DEPTS.map(d=>e("option",{key:d.id,value:d.id},d.icon+" "+d.name))),
+        e("input",{type:"date",value:t.due||"",onChange:ev=>onUpdate(t.id,{due:ev.target.value}),style:{...S.sel,fontSize:10}}))
+    ):e(React.Fragment,null,
+      e("div",{style:{fontSize:13,fontWeight:600,marginBottom:3,lineHeight:1.4}},t.title),
+      t.note&&e("div",{style:{fontSize:11,color:"#6E6B78",lineHeight:1.5}},t.note)),
+    e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8,flexWrap:"wrap",gap:4}},
+      e("div",{style:{display:"flex",gap:3}},(t.assignees||[]).map(aid=>{const m=mem(aid);return m?e("span",{key:aid,style:{display:"inline-flex",alignItems:"center",gap:2,background:m.color+"14",borderRadius:6,padding:"2px 6px"}},e("span",{style:{fontSize:10}},m.emoji),e("span",{style:{fontSize:9,color:m.color,fontWeight:600}},m.name)):null;})),
+      e("div",{style:{display:"flex",gap:6,alignItems:"center"}},
+        dl&&e("span",{style:{fontSize:9,fontWeight:600,color:dl.c}},dl.t),
+        e("select",{value:t.status,onChange:ev=>onUpdate(t.id,{status:ev.target.value}),style:{...S.sel,fontSize:10,padding:"2px 6px",background:STATUS[t.status].bg,color:STATUS[t.status].color,fontWeight:700,border:"none"}},Object.entries(STATUS).map(([k,v])=>e("option",{key:k,value:k},v.label))))));
+  return card;
+}
+
+function IdeaCard({idea,tags,bc,onUpdate,onDelete}){
+  const[ed,setEd]=useState(false);const tg=tags.find(x=>x.id===idea.tag)||{label:"?",color:"#999"};const nc=NCS.find(c=>c.id===idea.color)||NCS[0];
+  return e("div",{style:{background:nc.bg,border:`1px solid ${nc.br}`,borderRadius:"4px 16px 16px 16px",padding:14,boxShadow:idea.starred?"0 0 0 2px #FFC53D":"none"}},
+    e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},
+      e("span",{style:{fontSize:9,fontWeight:700,color:tg.color,background:tg.color+"18",padding:"2px 7px",borderRadius:4}},tg.label),
+      e("div",{style:{display:"flex",gap:2}},
+        e("button",{onClick:()=>onUpdate(idea.id,{starred:!idea.starred}),style:{...S.ib,fontSize:13}},idea.starred?"⭐":"☆"),
+        e("button",{onClick:()=>setEd(!ed),style:S.ib},"✏️"),
+        e("button",{onClick:()=>onDelete(idea.id),style:S.ib},"🗑️"))),
+    ed?e(React.Fragment,null,
+      e("input",{value:idea.title,onChange:ev=>onUpdate(idea.id,{title:ev.target.value}),style:S.inp}),
+      e("textarea",{value:idea.body||"",onChange:ev=>onUpdate(idea.id,{body:ev.target.value}),style:{...S.inp,height:60,resize:"vertical",marginTop:4}}),
+      e("div",{style:{display:"flex",gap:6,marginTop:6,flexWrap:"wrap",alignItems:"center"}},
+        e("select",{value:idea.tag,onChange:ev=>onUpdate(idea.id,{tag:ev.target.value}),style:S.sel},tags.map(t=>e("option",{key:t.id,value:t.id},t.label))),
+        e("div",{style:{display:"flex",gap:3}},NCS.map(c=>e("button",{key:c.id,onClick:()=>onUpdate(idea.id,{color:c.id}),style:{width:16,height:16,borderRadius:"50%",background:c.bg,border:idea.color===c.id?`2px solid ${bc}`:`1px solid ${c.br}`,cursor:"pointer",padding:0}}))))
+    ):e(React.Fragment,null,
+      e("div",{style:{fontSize:13.5,fontWeight:700,marginBottom:4,lineHeight:1.4}},idea.title),
+      idea.body&&e("div",{style:{fontSize:12,color:"#444",lineHeight:1.6,whiteSpace:"pre-wrap"}},idea.body)));
+}
+
+function App(){
+  const[data,setData]=useState(loadData);
+  const[mode,setMode]=useState("tasks");
+  const[tv,setTv]=useState("kanban");
+  const[td,setTd]=useState("all");
+  const[ta,setTa]=useState("all");
+  const[uo,setUo]=useState(false);
+  const[sat,setSat]=useState(false);
+  const[nt,setNt]=useState({dept:"plan",title:"",assignees:["me"],note:"",urgent:false,due:""});
+  const[ib2,setIb]=useState("plan");
+  const[it,setIt]=useState("all");
+  const[so,setSo]=useState(false);
+  const[is2,setIs]=useState("");
+  const[sai,setSai]=useState(false);
+  const[ni,setNi]=useState({board:"plan",tag:"format",color:"yellow",title:"",body:"",starred:false});
+
+  const sv=d=>{setData(d);saveData(d);};
+  const up=(k,id,u)=>{const n={...data,[k]:data[k].map(x=>x.id===id?{...x,...u}:x)};sv(n);};
+  const dl=(k,id)=>{const n={...data,[k]:data[k].filter(x=>x.id!==id)};sv(n);};
+  const addT=()=>{if(!nt.title.trim())return;sv({...data,tasks:[...data.tasks,{...nt,id:"t"+Date.now(),status:"todo"}]});setNt({dept:"plan",title:"",assignees:["me"],note:"",urgent:false,due:""});setSat(false);};
+  const addI=()=>{if(!ni.title.trim())return;sv({...data,ideas:[...data.ideas,{...ni,id:"i"+Date.now()}]});setNi({board:ib2,tag:ITAGS[ib2][0].id,color:"yellow",title:"",body:"",starred:false});setSai(false);};
+  const reset=()=>{if(confirm("초기화할까요?")){const d={tasks:DT,ideas:DI};sv(d);}};
+
+  let fT=data.tasks.filter(t=>(td==="all"||t.dept===td)&&(ta==="all"||(t.assignees||[]).includes(ta)));
+  if(uo)fT=fT.filter(t=>t.urgent);
+  const st={total:fT.length,done:fT.filter(t=>t.status==="done").length,doing:fT.filter(t=>t.status==="doing").length,todo:fT.filter(t=>t.status==="todo").length};
+  const tags=ITAGS[ib2];const bC=ib2==="plan"?"#FF4D6D":"#0EAFA0";
+  let fI=data.ideas.filter(i=>i.board===ib2);
+  if(it!=="all")fI=fI.filter(i=>i.tag===it);
+  if(so)fI=fI.filter(i=>i.starred);
+  if(is2.trim()){const q=is2.toLowerCase();fI=fI.filter(i=>i.title.toLowerCase().includes(q)||(i.body||"").toLowerCase().includes(q));}
+
+  const tlM={};
+  if(tv==="timeline"){fT.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).forEach(t=>{const m=t.due.slice(0,7);if(!tlM[m])tlM[m]=[];tlM[m].push(t);});}
+
+  return e("div",{style:{minHeight:"100vh",background:"#F6F4F7"}},
+    // Header
+    e("header",{style:{background:"#17151F",padding:"10px 20px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}},
+      e("div",{style:{display:"flex",alignItems:"center",gap:12}},
+        e("div",null,e("div",{style:{color:"#FF4D6D",fontSize:9,fontWeight:700,letterSpacing:2}},"ROTATION DATING CO."),e("div",{style:{color:"#fff",fontSize:15,fontWeight:800}},"운영 보드")),
+        e("div",{style:{display:"flex",background:"#2a2835",borderRadius:10,overflow:"hidden"}},
+          [{k:"tasks",l:"📋 업무",c:"#FF4D6D"},{k:"ideas",l:"💡 아이디어",c:"#FFC53D"}].map(t=>e("button",{key:t.k,onClick:()=>setMode(t.k),style:{background:mode===t.k?t.c:"transparent",color:mode===t.k?(t.k==="ideas"?"#17151F":"#fff"):"#6E6B78",border:"none",padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},t.l)))),
+      e("div",{style:{display:"flex",gap:6,alignItems:"center"}},
+        MEMBERS.map(m=>e("div",{key:m.id,style:{background:"#2a2835",borderRadius:7,padding:"4px 9px",display:"flex",alignItems:"center",gap:4}},e("span",{style:{fontSize:11}},m.emoji),e("span",{style:{color:m.color,fontSize:10,fontWeight:700}},m.name))),
+        e("button",{onClick:reset,style:{background:"transparent",color:"#555",border:"1px solid #333",borderRadius:6,padding:"4px 7px",fontSize:9,cursor:"pointer"}},"초기화"))),
+
+    // TASKS
+    mode==="tasks"&&e(React.Fragment,null,
+      e("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}},
+        e("div",{style:{display:"flex",gap:12}},[{l:"전체",v:st.total,c:"#17151F"},{l:"할 일",v:st.todo,c:"#6E6B78"},{l:"진행 중",v:st.doing,c:"#E8A23D"},{l:"완료",v:st.done,c:"#0EAFA0"}].map(s=>e("div",{key:s.l,style:{textAlign:"center"}},e("div",{style:{fontSize:16,fontWeight:800,color:s.c}},s.v),e("div",{style:{fontSize:9,color:"#6E6B78"}},s.l)))),
+        e("div",{style:{flex:1}}),
+        e("div",{style:{display:"flex",background:"#F0EEF2",borderRadius:8,overflow:"hidden"}},[{k:"kanban",l:"칸반"},{k:"timeline",l:"타임라인"}].map(v=>e("button",{key:v.k,onClick:()=>setTv(v.k),style:{background:tv===v.k?"#17151F":"transparent",color:tv===v.k?"#fff":"#6E6B78",border:"none",padding:"5px 12px",fontSize:10,fontWeight:700,cursor:"pointer"}},v.l))),
+        e("button",{onClick:()=>setSat(true),style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"7px 14px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 업무")),
+      e("div",{style:{padding:"8px 20px",display:"flex",gap:5,flexWrap:"wrap"}},
+        e(Chip,{on:td==="all",onClick:()=>setTd("all")},"전체"),
+        DEPTS.map(d=>e(Chip,{key:d.id,on:td===d.id,color:d.color,onClick:()=>setTd(d.id)},d.icon+" "+d.name)),
+        e("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
+        e(Chip,{on:ta==="all",onClick:()=>setTa("all")},"모두"),
+        MEMBERS.map(m=>e(Chip,{key:m.id,on:ta===m.id,color:m.color,onClick:()=>setTa(m.id)},m.emoji+" "+m.name)),
+        e("span",{style:{width:1,background:"#E7E4EC",margin:"0 3px"}}),
+        e(Chip,{on:uo,color:uo?"#E23A57":null,onClick:()=>setUo(!uo)},"🔥 긴급만")),
+
+      tv==="kanban"&&e("div",{style:{padding:"0 20px 40px",display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,alignItems:"flex-start"}},
+        Object.entries(STATUS).map(([key,s])=>{
+          const col=fT.filter(t=>t.status===key).sort((a,b)=>(b.urgent?1:0)-(a.urgent?1:0)||(a.due||"z").localeCompare(b.due||"z"));
+          return e("div",{key},
+            e("div",{style:{display:"flex",alignItems:"center",gap:5,marginBottom:8,padding:"0 4px"}},e("div",{style:{width:7,height:7,borderRadius:"50%",background:s.color}}),e("span",{style:{fontSize:12,fontWeight:700,color:s.color}},s.label),e("span",{style:{fontSize:10,color:"#aaa"}},"("+col.length+")")),
+            e("div",{style:{display:"flex",flexDirection:"column",gap:8}},col.map(t=>e(TaskCard,{key:t.id,t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})),col.length===0&&e("div",{style:{textAlign:"center",padding:16,color:"#ccc",fontSize:11}},"—")));})),
+
+      tv==="timeline"&&e("div",{style:{padding:"10px 20px 40px",maxWidth:800,margin:"0 auto"}},
+        Object.keys(tlM).length===0&&e("div",{style:{textAlign:"center",padding:40,color:"#ccc",fontSize:12}},"마감일이 설정된 업무가 없습니다"),
+        Object.entries(tlM).map(([m,tasks])=>e("div",{key:m,style:{marginBottom:24}},
+          e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},e("div",{style:{background:"#17151F",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},m.split("-")[1]+"월"),e("div",{style:{flex:1,height:1,background:"#E7E4EC"}}),e("span",{style:{fontSize:10,color:"#6E6B78"}},tasks.length+"건")),
+          e("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px solid #E7E4EC"}},tasks.map(t=>e("div",{key:t.id,style:{marginLeft:12}},e(TaskCard,{t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})))))),
+        fT.filter(t=>!t.due&&t.status!=="done").length>0&&e("div",{style:{marginBottom:24}},
+          e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},e("div",{style:{background:"#6E6B78",color:"#fff",borderRadius:8,padding:"4px 12px",fontSize:14,fontWeight:800}},"미정"),e("div",{style:{flex:1,height:1,background:"#E7E4EC"}})),
+          e("div",{style:{display:"flex",flexDirection:"column",gap:8,paddingLeft:8,borderLeft:"2px dashed #E7E4EC"}},fT.filter(t=>!t.due&&t.status!=="done").map(t=>e("div",{key:t.id,style:{marginLeft:12}},e(TaskCard,{t,onUpdate:(id,u)=>up("tasks",id,u),onDelete:id=>dl("tasks",id)})))))),
+
+      sat&&e(Modal,{onClose:()=>setSat(false),title:"업무 추가"},
+        e(Lbl,null,"부서"),e("select",{value:nt.dept,onChange:ev=>setNt({...nt,dept:ev.target.value}),style:S.inp},DEPTS.map(d=>e("option",{key:d.id,value:d.id},d.icon+" "+d.name))),
+        e(Lbl,null,"업무 제목"),e("input",{value:nt.title,onChange:ev=>setNt({...nt,title:ev.target.value}),style:S.inp,placeholder:"업무 내용",autoFocus:true}),
+        e(Lbl,null,"담당자 (복수 선택)"),e(APicker,{value:nt.assignees,onChange:v=>setNt({...nt,assignees:v}),sz:"md"}),
+        e(Lbl,null,"마감일"),e("input",{type:"date",value:nt.due,onChange:ev=>setNt({...nt,due:ev.target.value}),style:S.inp}),
+        e(Lbl,null,"메모"),e("textarea",{value:nt.note,onChange:ev=>setNt({...nt,note:ev.target.value}),style:{...S.inp,height:50},placeholder:"참고 사항"}),
+        e("div",{style:{marginTop:8}},e(Chip,{on:nt.urgent,color:nt.urgent?"#E23A57":null,onClick:()=>setNt({...nt,urgent:!nt.urgent})},"🔥 "+(nt.urgent?"긴급 표시됨":"긴급 표시"))),
+        e("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},
+          e("button",{onClick:()=>setSat(false),style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),
+          e("button",{onClick:addT,style:{background:"#FF4D6D",color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가")))),
+
+    // IDEAS
+    mode==="ideas"&&e(React.Fragment,null,
+      e("div",{style:{background:"#fff",borderBottom:"1px solid #E7E4EC",padding:"8px 20px",display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}},
+        [{id:"plan",n:"기획",em:"🎯",c:"#FF4D6D"},{id:"mkt",n:"마케팅",em:"📢",c:"#0EAFA0"}].map(b=>e(Chip,{key:b.id,on:ib2===b.id,color:b.c,onClick:()=>{setIb(b.id);setIt("all");}},b.em+" "+b.n)),
+        e("span",{style:{width:1,height:18,background:"#E7E4EC"}}),
+        e("div",{style:{position:"relative",flex:"0 0 150px"}},e("input",{value:is2,onChange:ev=>setIs(ev.target.value),placeholder:"검색...",style:{width:"100%",border:"1px solid #E7E4EC",borderRadius:8,padding:"5px 10px 5px 24px",fontSize:11,outline:"none",fontFamily:"inherit"}}),e("span",{style:{position:"absolute",left:7,top:6,fontSize:10,opacity:.4}},"🔍")),
+        e("div",{style:{display:"flex",gap:4,flexWrap:"wrap"}},
+          e(Chip,{on:it==="all",color:bC,onClick:()=>setIt("all")},"전체"),
+          tags.map(t=>e(Chip,{key:t.id,on:it===t.id,color:t.color,onClick:()=>setIt(t.id)},t.label))),
+        e(Chip,{on:so,color:so?"#FFC53D":null,onClick:()=>setSo(!so)},"⭐"),
+        e("div",{style:{flex:1}}),
+        e("span",{style:{fontSize:11,color:"#6E6B78",fontWeight:600}},fI.length+"개"),
+        e("button",{onClick:()=>{setNi({board:ib2,tag:tags[0].id,color:"yellow",title:"",body:"",starred:false});setSai(true);},style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"7px 12px",fontSize:11,fontWeight:700,cursor:"pointer"}},"+ 아이디어")),
+      e("div",{style:{padding:20,display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:12,alignItems:"start"}},
+        fI.map(idea=>e(IdeaCard,{key:idea.id,idea,tags,bc:bC,onUpdate:(id,u)=>up("ideas",id,u),onDelete:id=>dl("ideas",id)})),
+        fI.length===0&&e("div",{style:{gridColumn:"1/-1",textAlign:"center",padding:50,color:"#ccc"}},e("div",{style:{fontSize:28,marginBottom:6}},"💭"),e("div",{style:{fontSize:12}},"아이디어를 추가해보세요"))),
+      sai&&e(Modal,{onClose:()=>setSai(false),title:"💡 새 아이디어"},
+        e(Lbl,null,"카테고리"),e("select",{value:ni.tag,onChange:ev=>setNi({...ni,tag:ev.target.value}),style:S.inp},tags.map(t=>e("option",{key:t.id,value:t.id},t.label))),
+        e(Lbl,null,"제목"),e("input",{value:ni.title,onChange:ev=>setNi({...ni,title:ev.target.value}),style:S.inp,placeholder:"한 줄 요약",autoFocus:true}),
+        e(Lbl,null,"내용"),e("textarea",{value:ni.body,onChange:ev=>setNi({...ni,body:ev.target.value}),style:{...S.inp,height:68},placeholder:"상세 설명"}),
+        e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}},
+          e("div",{style:{display:"flex",gap:3}},NCS.map(c=>e("button",{key:c.id,onClick:()=>setNi({...ni,color:c.id}),style:{width:20,height:20,borderRadius:"50%",background:c.bg,border:ni.color===c.id?`2px solid ${bC}`:`1px solid ${c.br}`,cursor:"pointer",padding:0}}))),
+          e(Chip,{on:ni.starred,color:ni.starred?"#FFC53D":null,onClick:()=>setNi({...ni,starred:!ni.starred})},ni.starred?"⭐ 핵심":"☆ 핵심")),
+        e("div",{style:{display:"flex",gap:8,justifyContent:"flex-end",marginTop:14}},
+          e("button",{onClick:()=>setSai(false),style:{background:"transparent",border:"1px solid #E7E4EC",borderRadius:8,padding:"8px 16px",fontSize:13,cursor:"pointer"}},"취소"),
+          e("button",{onClick:addI,style:{background:bC,color:"#fff",border:"none",borderRadius:8,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}},"추가"))))
+  );
+}
+
+ReactDOM.render(e(App),document.getElementById("root"));
+</script>
+</body>
+</html>
